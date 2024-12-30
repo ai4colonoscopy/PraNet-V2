@@ -30,7 +30,7 @@ conda env create -f pranet2.yaml
 
 #### Dataset Preparation
 
-1. Polyp datasets
+1. **Polyp datasets**
    - To download the testing dataset, use this [Google Drive Link (327.2MB)](https://drive.google.com/file/d/1Y2z7FD5p5y31vkZwQQomXFRB0HutHyao/view?usp=sharing) and place it in the directory `./data/TestDataset/`.
    - For the training dataset, download it from this [Google Drive Link (399.5MB)](https://drive.google.com/file/d/1YiGHLw4iTvKdvbT6MgwO9zcCv8zJ_Bnb/view?usp=sharing) and move it to `./data/TrainDataset/`.
 2. **ACDC and Synapse dataset**
