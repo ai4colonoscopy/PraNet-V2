@@ -142,7 +142,7 @@ if __name__ == "__main__":
     
     current_time = time.strftime("%H%M%S")
     print("The current time is", current_time)
-    snapshot_path = '/defaultShare/archive/zhuzixuan/hubocheng/MIST-main/model_pth/Synapse/run:2024-10-18 13_Dual_MIST_CAM_loss_MUTATION_w3_7_256_pretrain_epo300_bs12_lr0.0001_256_s2222/best.pth'
+    snapshot_path = './multi-class/MIST-main/model_pth/Synapse/MIST_Synapse.pth' # TODO：Replace with the path to the model you want to test
     
     net= MIST_CAM(n_class=args.num_classes, img_size_s1=(args.img_size,args.img_size), img_size_s2=(224,224), model_scale='small', decoder_aggregation='additive', interpolation='bilinear',dual=args.dual).cuda()
     

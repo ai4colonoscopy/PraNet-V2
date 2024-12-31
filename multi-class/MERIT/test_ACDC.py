@@ -112,31 +112,16 @@ if __name__ == "__main__":
     logging.info(str(args))
     logging.info(snapshot_name)
     
-    # snapshot_visulize = '/defaultShare/archive/zhuzixuan/hubocheng/MERIT/model_pth/ACDC/run_2024-09-25 01_Dual_MERIT_Cascaded_Small_loss_MUTATION_w3_7_256_pretrain_epo400_bs4_lr0.0001_256_s2222/last.pth'
-    snapshot_visulize = '/defaultShare/archive/zhuzixuan/hubocheng/MERIT/model_pth/ACDC/Dual_MERIT_Cascaded_Small_loss_MUTATION_w3_7_256_pretrain_epo400_bs4_lr0.0001_256_s2222_run2024-08-22 09/last.pth'
-
-    test_save_path = os.path.join(os.path.dirname(snapshot_visulize), 'predictions')
+    snapshot_path = ''
+    
+    test_save_path = os.path.join(os.path.dirname(snapshot_path), 'predictions')
     os.makedirs(test_save_path, exist_ok=True)
     
-    # if args.dual:
-    #     logging.info("########## Using Dual Supervision ##########")
-    #     if args.merit_type == 'MERIT_Parallel':
-    #         net=MERIT_Parallel_dual(n_class=args.num_classes, img_size_s1=(args.img_size,args.img_size), img_size_s2=(224,224), model_scale='small', decoder_aggregation='additive', interpolation='bilinear').cuda()
-    #     if args.merit_type == 'MERIT_Cascaded':
-    #         net=MERIT_Cascaded_dual(n_class=args.num_classes, img_size_s1=(args.img_size,args.img_size), img_size_s2=(224,224), model_scale='small', decoder_aggregation='additive', interpolation='bilinear').cuda()
-    # else:
-    #     logging.info("########## Using Single Supervision##########")
-    #     if args.merit_type == 'MERIT_Parallel':
-    #         net = MERIT_Parallel(n_class=asrgs.num_classes, img_size_s1=(args.img_size,args.img_size), img_size_s2=(224,224), model_scale='small', decoder_aggregation='additive', interpolation='bilinear').cuda()
-    #     if args.merit_type == 'MERIT_Cascaded':
-    #         net = MERIT_Cascaded(n_class=args.num_classes, img_size_s1=(args.img_size,args.img_size), img_size_s2=(224,224), model_scale='small', decoder_aggregation='additive', interpolation='bilinear').cuda()
-    # net = MERIT_Cascaded_dual(n_class=args.num_classes, img_size_s1=(args.img_size,args.img_size), img_size_s2=(224,224), model_scale='small', decoder_aggregation='additive', interpolation='bilinear').cuda()
-    # net=MERIT_Cascaded_dual(n_class=args.num_classes, img_size_s1=(args.img_size,args.img_size), img_size_s2=(224,224), model_scale='small', decoder_aggregation='additive', interpolation='bilinear').cuda()
     net=MERIT_Cascaded(n_class=args.num_classes, img_size_s1=(args.img_size,args.img_size), img_size_s2=(224,224), model_scale='small', decoder_aggregation='additive', interpolation='bilinear').cuda()
 
 
     # net.load_state_dict(torch.load(snapshot))
-    net.load_state_dict(torch.load(snapshot_visulize))
+    net.load_state_dict(torch.load(snapshot_path))
 
     db_test =ACDCdataset(base_dir=args.volume_path,list_dir=args.list_dir, split="test")
     testloader = DataLoader(db_test, batch_size=1, shuffle=False)

@@ -118,14 +118,11 @@ if __name__ == "__main__":
 
     net = MIST_CAM(n_class=args.num_classes, img_size_s1=(args.img_size,args.img_size), img_size_s2=(224,224), model_scale='small', decoder_aggregation='additive', interpolation='bilinear',dual=args.dual).cuda()
 
-    snapshot = os.path.join(snapshot_path, 'best.pth')
-    # snapshot_visulize = '/defaultShare/archive/zhuzixuan/hubocheng/MIST-main/model_pth/ACDC/run:2024-10-13 12_Dual_MIST_CAM_loss_MUTATION_w3_7_256_pretrain_epo400_bs12_lr0.0001_256_s2222/best.pth'
-    snapshot_visulize = '/defaultShare/archive/zhuzixuan/hubocheng/MIST-main/model_pth/ACDC/run:2024-10-12 22_MIST_CAM_loss_MUTATION_w3_7_256_pretrain_epo400_bs12_lr0.0001_256_s2222/last.pth'
-    
-    print(snapshot_visulize)
+    snapshot = './multi-class/MIST-main/model_pth/ACDC/MIST_ACDC.pth' # TODO：Replace with the path to the model you want to test
+    print(snapshot)
     # print(os.path.exists(snapshot))
     # if not os.path.exists(snapshot): snapshot = snapshot.replace('last', 'epoch_'+str(args.max_epochs-1))
-    net.load_state_dict(torch.load(snapshot_visulize))
+    net.load_state_dict(torch.load(snapshot))
     snapshot_name = snapshot_path.split('/')[-1]
 
     log_folder = 'test_log/test_log_' + args.exp
@@ -136,7 +133,7 @@ if __name__ == "__main__":
     logging.info(str(args))
     logging.info(snapshot_name)
 
-    args.test_save_dir = os.path.join(os.path.dirname(snapshot_visulize), 'predictions')
+    args.test_save_dir = os.path.join(os.path.dirname(snapshot), 'predictions')
     test_save_path = args.test_save_dir
     os.makedirs(test_save_path, exist_ok=True)
     

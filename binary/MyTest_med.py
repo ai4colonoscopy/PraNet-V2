@@ -61,8 +61,8 @@ if __name__ == "__main__":
         data_path = './data/TestDataset/{}/'.format(_data_name)
         save_path = './results/PVT-PraNet-V2-ep20/{}/'.format(_data_name) # TODO: Change the name of the folder to save the segmentation results
         opt = parser.parse_args()
-        # model = PraNet()
-        model = PVT_PraNet_V2(num_class=1)
+        # model = PraNet_V2() # TODO: use PraNet_V2 model
+        model = PVT_PraNet_V2(num_class=1) # TODO: use PVT-PraNet_V2 model
         model.load_state_dict(torch.load(opt.pth_path))
         model.cuda()
         model.eval()

@@ -180,7 +180,7 @@ if __name__ == "__main__":
     current_time = time.strftime("%H%M%S")
     print("The current time is", current_time)
     # TODO: change snapshot_path to the path of the model you want to test
-    snapshot_path = '/defaultShare/archive/zhuzixuan/hubocheng/EMCAD/model_pth/Synapse/run:2024-10-17 10_dual_pvt_v2_b2_EMCAD_kernel_sizes_[1, 3, 5]_dw_parallel_add_lgag_ks_3_ef2_act_mscb_relu6_loss_mutation_output_final_layer_Run1_Synapse224_pretrain_bs6_224_s2222/best.pth'
+    snapshot_path = './multi-class/EMCAD/model_pth/Synapse/EMCAD_Synapse.pth'
 
     net= EMCADNet(num_classes=args.num_classes, kernel_sizes=args.kernel_sizes, expansion_factor=args.expansion_factor, dw_parallel=not args.no_dw_parallel, add=not args.concatenation, lgag_ks=args.lgag_ks, activation=args.activation_mscb, encoder=args.encoder, pretrain= not args.no_pretrain,dual=args.dual).cuda()
     
