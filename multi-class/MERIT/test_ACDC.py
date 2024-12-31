@@ -112,7 +112,7 @@ if __name__ == "__main__":
     logging.info(str(args))
     logging.info(snapshot_name)
     
-    snapshot_path = ''
+    snapshot_path = '' # TODO：Replace with the path to the model you want to test
     
     test_save_path = os.path.join(os.path.dirname(snapshot_path), 'predictions')
     os.makedirs(test_save_path, exist_ok=True)
