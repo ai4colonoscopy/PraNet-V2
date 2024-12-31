@@ -229,33 +229,33 @@ def test_single_volume(image, label, net, classes, patch_size=[256, 256], test_s
 
                     fig_gt.save(test_save_path + '/'+case + '_' +str(ind)+'_gt.png', bbox_inches="tight", dpi=(300,300))
                     fig_pred.save(test_save_path + '/'+case + '_' +str(ind)+'_pred.png', bbox_inches="tight", dpi=(300,300))
-                    if ind==170:
-                        np.save(test_save_path + '/'+case + '_' +str(ind)+'_pred.npy', pred)
+                    # if ind==170:
+                    #     np.save(test_save_path + '/'+case + '_' +str(ind)+'_pred.npy', pred)
                         
-                        p1,p2,p3,p4,p11,p12,p13,p14 = all_p
-                        out = p1.squeeze(0).detach().cpu()
-                        torch.save(out, test_save_path + '/'+case + '_' +str(ind)+'_p1.pt')
+                    #     p1,p2,p3,p4,p11,p12,p13,p14 = all_p
+                    #     out = p1.squeeze(0).detach().cpu()
+                    #     torch.save(out, test_save_path + '/'+case + '_' +str(ind)+'_p1.pt')
                         
-                        out = p2.squeeze(0).detach().cpu()
-                        torch.save(out, test_save_path + '/'+case + '_' +str(ind)+'_p2.pt')
+                    #     out = p2.squeeze(0).detach().cpu()
+                    #     torch.save(out, test_save_path + '/'+case + '_' +str(ind)+'_p2.pt')
                         
-                        out = p3.squeeze(0).detach().cpu()
-                        torch.save(out, test_save_path + '/'+case + '_' +str(ind)+'_p3.pt')
+                    #     out = p3.squeeze(0).detach().cpu()
+                    #     torch.save(out, test_save_path + '/'+case + '_' +str(ind)+'_p3.pt')
                         
-                        out = p4.squeeze(0).detach().cpu()
-                        torch.save(out, test_save_path + '/'+case + '_' +str(ind)+'_p4.pt')
+                    #     out = p4.squeeze(0).detach().cpu()
+                    #     torch.save(out, test_save_path + '/'+case + '_' +str(ind)+'_p4.pt')
                         
-                        out = p11.squeeze(0).detach().cpu()
-                        torch.save(out, test_save_path + '/'+case + '_' +str(ind)+'_p11.pt')
+                    #     out = p11.squeeze(0).detach().cpu()
+                    #     torch.save(out, test_save_path + '/'+case + '_' +str(ind)+'_p11.pt')
                         
-                        out = p12.squeeze(0).detach().cpu()
-                        torch.save(out, test_save_path + '/'+case + '_' +str(ind)+'_p12.pt')
+                    #     out = p12.squeeze(0).detach().cpu()
+                    #     torch.save(out, test_save_path + '/'+case + '_' +str(ind)+'_p12.pt')
                         
-                        out = p13.squeeze(0).detach().cpu()
-                        torch.save(out, test_save_path + '/'+case + '_' +str(ind)+'_p13.pt')
+                    #     out = p13.squeeze(0).detach().cpu()
+                    #     torch.save(out, test_save_path + '/'+case + '_' +str(ind)+'_p13.pt')
                         
-                        out = p14.squeeze(0).detach().cpu()
-                        torch.save(out, test_save_path + '/'+case + '_' +str(ind)+'_p14.pt')
+                    #     out = p14.squeeze(0).detach().cpu()
+                    #     torch.save(out, test_save_path + '/'+case + '_' +str(ind)+'_p14.pt')
                         
                 prediction[ind] = pred
                 
