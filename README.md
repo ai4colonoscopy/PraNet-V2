@@ -42,7 +42,7 @@ conda env create -f pranet2.yaml
 
 # Interface
 
-Before running the inference script, make sure to grab the **pre-trained model weights** 🔗 [Download here](https://drive.google.com/drive/folders/1o4UHzI48wwEtpz-J91dnIRhtYy67lFCO?usp=sharing).
+📦 Before running the inference script, make sure to grab the **pre-trained model weights** 🔗 [Download here](https://drive.google.com/drive/folders/1o4UHzI48wwEtpz-J91dnIRhtYy67lFCO?usp=sharing).
 
 
 
