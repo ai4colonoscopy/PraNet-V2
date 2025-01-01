@@ -79,13 +79,14 @@ if __name__ == "__main__":
     parser.add_argument("--save_path", default="./model_pth/ACDC")
     parser.add_argument("--n_gpu", default=1)
     parser.add_argument("--checkpoint", default=None)
-    parser.add_argument("--list_dir", default="/defaultShare/archive/zhuzixuan/cascade_dataset/ACDC/lists_ACDC")
-    parser.add_argument("--root_dir", default="/defaultShare/archive/zhuzixuan/cascade_dataset/ACDC/")
-    parser.add_argument("--volume_path", default="/defaultShare/archive/zhuzixuan/cascade_dataset/ACDC/test")
+    parser.add_argument("--list_dir", default="/path/to/lists_ACDC") # TODO: replace with actual path
+    parser.add_argument("--root_dir", default="/path/to/ACDC/") # TODO: replace with actual path (root of ACDC dataset)
+    parser.add_argument("--volume_path", default="/path/to/ACDC/test") # TODO: replace with actual path
     parser.add_argument("--z_spacing", default=10)
     parser.add_argument("--num_classes", default=4)
-    # parser.add_argument('--test_save_dir', default='./predictions', help='saving prediction as nii!')
-    parser.add_argument('--test_save_dir', default=None, help='saving prediction as nii!')
+    parser.add_argument('--is_savefig', default=False, action="store_true", help='whether to save results during inference')
+    parser.add_argument('--test_save_dir', default='./predictions', help='saving prediction as nii!')
+    # parser.add_argument('--test_save_dir', default=None, help='saving prediction as nii!')
     parser.add_argument('--deterministic', type=int,  default=1,
                     help='whether use deterministic training')
     parser.add_argument('--seed', type=int,
@@ -133,9 +134,13 @@ if __name__ == "__main__":
     logging.info(str(args))
     logging.info(snapshot_name)
 
-    args.test_save_dir = os.path.join(os.path.dirname(snapshot), 'predictions')
-    test_save_path = args.test_save_dir
-    os.makedirs(test_save_path, exist_ok=True)
+    if args.is_savefig:
+        test_save_path = os.path.join(os.path.dirname(snapshot), 'predictions')
+        os.makedirs(test_save_path, exist_ok=True)
+        logging.info('Saving prediction to %s' % test_save_path)
+    else:
+        test_save_path = None
+        logging.info('Not saving prediction')
     
     
     db_test =ACDCdataset(base_dir=args.volume_path,list_dir=args.list_dir, split="test")

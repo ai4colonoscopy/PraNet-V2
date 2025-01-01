@@ -37,9 +37,9 @@ parser.add_argument("--img_size", default=256)
 parser.add_argument("--save_path", default="./model_pth/ACDC")
 parser.add_argument("--n_gpu", default=1)
 parser.add_argument("--checkpoint", default=None)
-parser.add_argument("--list_dir", default="/defaultShare/archive/zhuzixuan/cascade_dataset/ACDC/lists_ACDC")
-parser.add_argument("--root_dir", default="/defaultShare/archive/zhuzixuan/cascade_dataset/ACDC/")
-parser.add_argument("--volume_path", default="/defaultShare/archive/zhuzixuan/cascade_dataset/ACDC/test")
+parser.add_argument("--list_dir", default="/path/to/lists_ACDC") # TODO: replace with actual path
+parser.add_argument("--root_dir", default="/path/to/ACDC/") # TODO: replace with actual path (root of ACDC dataset)
+parser.add_argument("--volume_path", default="/path/to/ACDC/test") # TODO: replace with actual path
 parser.add_argument("--z_spacing", default=10)
 parser.add_argument("--num_classes", default=4)
 parser.add_argument('--test_save_dir', default='./predictions', help='saving prediction as nii!')

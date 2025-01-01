@@ -24,8 +24,8 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('--root_path', type=str,default='/defaultShare/archive/zhuzixuan/cascade_dataset/synapse/train_npz_new', help='root dir for data')
-    parser.add_argument('--volume_path', type=str,default='/defaultShare/archive/zhuzixuan/cascade_dataset/synapse/test_vol_h5_new', help='root dir for validation volume data')
+    parser.add_argument('--root_path', type=str,default='/path/to/train_npz_new', help='root dir for data') # TODO: replace with actual path
+    parser.add_argument('--volume_path', type=str,default='/path/to/test_vol_h5_new', help='root dir for validation volume data') # TODO: replace with actual path
     parser.add_argument('--dataset', type=str,default='Synapse', help='experiment_name')
     parser.add_argument('--list_dir', type=str,default='./lists/lists_Synapse', help='list dir')
     parser.add_argument('--num_classes', type=int,default=9, help='output channel of network')
@@ -65,7 +65,7 @@ if __name__ == '__main__':
                         help='whether use deterministic training')
     parser.add_argument('--seed', type=int,
                         default=2222, help='random seed')
-    parser.add_argument('--dual',action='store_true', help='dual supervision or single supervision')
+    parser.add_argument('--dual', default= True, action='store_true', help='dual supervision or single supervision')
 
     args = parser.parse_args()
 

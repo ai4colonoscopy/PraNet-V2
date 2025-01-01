@@ -37,7 +37,7 @@ parser = argparse.ArgumentParser(description='Searching longest common substring
                     'Uses Ukkonen\'s suffix tree algorithm and generalized suffix tree. '
                     'Written by Ilya Stepanov (c) 2013')
 parser.add_argument('strings', metavar='STRING', nargs='*', help='String for searching',)
-parser.add_argument('--volume_path', type=str,default='/defaultShare/archive/zhuzixuan/cascade_dataset/synapse/test_vol_h5_new', help='root dir for validation volume data')
+parser.add_argument('--volume_path', type=str,default='/path/to/test_vol_h5_new', help='root dir for validation volume data') # TODO: replace with actual path
 parser.add_argument('--dataset', type=str,
                     default='Synapse', help='experiment_name')
 parser.add_argument('--num_classes', type=int,
@@ -50,7 +50,7 @@ parser.add_argument('--max_epochs', type=int, default=300, help='maximum epoch n
 parser.add_argument('--batch_size', type=int, default=16,
                     help='batch_size per gpu')
 parser.add_argument('--img_size', type=int, default=256, help='input patch size of network input')
-parser.add_argument('--is_savenii', action="store_true", help='whether to save results during inference')
+parser.add_argument('--is_savefig', default=False, action="store_true", help='whether to save results during inference')
 
 parser.add_argument('--test_save_dir', type=str, default='predictions', help='saving prediction as nii!')
 parser.add_argument('--deterministic', type=int,  default=1, help='whether use deterministic training')
@@ -146,11 +146,8 @@ if __name__ == "__main__":
     
     net= MIST_CAM(n_class=args.num_classes, img_size_s1=(args.img_size,args.img_size), img_size_s2=(224,224), model_scale='small', decoder_aggregation='additive', interpolation='bilinear',dual=args.dual).cuda()
     
-    # if not os.path.exists(snapshot): snapshot = snapshot.replace('best', 'epoch_'+str(args.max_epochs-1))
-    # temp_path='/defaultShare/archive/zhuzixuan/hubocheng/MIST-main/model_pth/Synapse/run:2024-10-18 13_Dual_MIST_CAM_loss_MUTATION_w3_7_256_pretrain_epo300_bs12_lr0.0001_256_s2222/best.pth'
-    # net.load_state_dict(torch.load(snapshot))
     net.load_state_dict(torch.load(snapshot_path))
-    snapshot_name = snapshot_path.split('/')[-2]
+    snapshot_name = snapshot_path.split('/')[-1]
 
     log_folder = 'test_log/test_log_' + args.exp
 
@@ -159,10 +156,13 @@ if __name__ == "__main__":
     logging.getLogger().addHandler(logging.StreamHandler(sys.stdout))
     logging.info(str(args))
     logging.info(snapshot_name)
-
-    args.test_save_dir = os.path.join(os.path.dirname(snapshot_path), "predictions")
-    test_save_path = args.test_save_dir
-    os.makedirs(test_save_path, exist_ok=True)
+    
+    
+    if args.is_savefig:
+        test_save_path = os.path.join(os.path.dirname(snapshot_path), "predictions")
+        os.makedirs(test_save_path, exist_ok=True)
+    else:
+        test_save_path = None
     inference(args, net, test_save_path)
 
 

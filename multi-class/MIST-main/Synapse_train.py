@@ -40,10 +40,8 @@ parser = argparse.ArgumentParser(description='Searching longest common substring
                     'Uses Ukkonen\'s suffix tree algorithm and generalized suffix tree. '
                     'Written by Ilya Stepanov (c) 2013')
 parser.add_argument('strings', metavar='STRING', nargs='*', help='String for searching',)
-parser.add_argument('--root_path', type=str,
-                    default='/defaultShare/archive/zhuzixuan/cascade_dataset/synapse/train_npz_new', help='root dir for data')
-parser.add_argument('--volume_path', type=str,
-                    default='/defaultShare/archive/zhuzixuan/cascade_dataset/synapse/test_vol_h5_new', help='root dir for validation volume data')
+parser.add_argument('--root_path', type=str, default='/path/to/train_npz_new', help='root dir for data') # TODO: replace with actual path
+parser.add_argument('--volume_path', type=str, default='/path/to/test_vol_h5_new', help='root dir for validation volume data') # TODO: replace with actual path
 parser.add_argument('--dataset', type=str,
                     default='Synapse', help='experiment_name')
 parser.add_argument('--list_dir', type=str,

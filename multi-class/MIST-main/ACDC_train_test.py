@@ -148,13 +148,14 @@ parser.add_argument("--img_size", default=256)
 parser.add_argument("--save_path", default="./model_pth/ACDC")
 parser.add_argument("--n_gpu", default=1)
 parser.add_argument("--checkpoint", default=None)
-parser.add_argument("--list_dir", default="/defaultShare/archive/zhuzixuan/cascade_dataset/ACDC/lists_ACDC")
-parser.add_argument("--root_dir", default="/defaultShare/archive/zhuzixuan/cascade_dataset/ACDC/")
-parser.add_argument("--volume_path", default="/defaultShare/archive/zhuzixuan/cascade_dataset/ACDC/test")
+parser.add_argument("--list_dir", default="/path/to/lists_ACDC") # TODO: replace with actual path
+parser.add_argument("--root_dir", default="/path/to/ACDC/") # TODO: replace with actual path (root of ACDC dataset)
+parser.add_argument("--volume_path", default="/path/to/ACDC/test") # TODO: replace with actual path
 parser.add_argument("--z_spacing", default=10)
 parser.add_argument("--num_classes", default=4)
-# parser.add_argument('--test_save_dir', default='./predictions', help='saving prediction as nii!')
-parser.add_argument('--test_save_dir', default=None, help='saving prediction as nii!')
+parser.add_argument('--is_savefig', default=False, action="store_true", help='whether to save results during inference')
+parser.add_argument('--test_save_dir', default='./predictions', help='saving prediction as nii!')
+# parser.add_argument('--test_save_dir', default=None, help='saving prediction as nii!')
 parser.add_argument('--deterministic', type=int,  default=1,
                     help='whether use deterministic training')
 parser.add_argument('--seed', type=int,
@@ -205,13 +206,13 @@ if not os.path.exists(snapshot_path):
 logging.basicConfig(filename=snapshot_path + "/log.txt", level=logging.INFO,
                         format='[%(asctime)s.%(msecs)03d] %(message)s', datefmt='%H:%M:%S')
 
-if args.test_save_dir is not None:
-    args.test_save_dir = os.path.join(snapshot_path, args.test_save_dir)
-    test_save_path = os.path.join(args.test_save_dir, args.exp)
+if args.is_savefig:
+    test_save_path = os.path.join(snapshot_path, 'predictions')
     if not os.path.exists(test_save_path):
         os.makedirs(test_save_path, exist_ok=True)
 else:
-    logging.info("##########Disable test_save##########")
+    logging.info("##########Disable savefig##########")
+    test_save_path = None
 
 if args.dual:
     logging.info("########## Using Dual Supervision ##########")
@@ -314,10 +315,10 @@ for epoch in tqdm(range(args.max_epochs)):
                 #     print("=====Warning 3 loss not in same magnitude ce:{}/dice:{}/bce:{}=====".format(loss_ce,loss_dice,loss_bce))
                 #     logging.info("=====Warning 3 loss not in same magnitude ce:{}/dice:{}/bce:{}=====".format(loss_ce,loss_dice,loss_bce))
 
-                # loss += (lc1 * loss_ce + lc2 * loss_dice + lc3 * loss_bce) # 原始
+                loss += (lc1 * loss_ce + lc2 * loss_dice + lc3 * loss_bce) # 原始
                 # loss += (0.7 * loss_dice + 0.3 * loss_bce) # bce+dice
                 # loss += (0.7 * loss_dice + 0.3 * loss_ce) # ce+dice
-                loss += (0.7 * loss_ce + 0.3 * loss_bce) # ce+bce
+                # loss += (0.7 * loss_ce + 0.3 * loss_bce) # ce+bce
                 # loss += (lc1 * loss_ce + lc3 * loss_bce) 
         else:
             P = net(image_batch)
@@ -358,7 +359,7 @@ for epoch in tqdm(range(args.max_epochs)):
 
     
     if  epoch > 0.25 * args.max_epochs:
-        avg_test_dcs, avg_hd, avg_jacard, avg_asd = inference(args, net, testloader, args.test_save_dir)
+        avg_test_dcs, avg_hd, avg_jacard, avg_asd = inference(args, net, testloader, test_save_path)
         if avg_test_dcs > Best_interface:
             Best_interface = avg_test_dcs
             save_model_path = os.path.join(snapshot_path, 'best.pth')

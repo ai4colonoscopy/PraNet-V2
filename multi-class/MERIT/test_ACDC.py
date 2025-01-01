@@ -47,11 +47,12 @@ if __name__ == "__main__":
     parser.add_argument("--save_path", default="./model_pth/ACDC")
     parser.add_argument("--n_gpu", default=1)
     parser.add_argument("--checkpoint", default=None)
-    parser.add_argument("--list_dir", default="/defaultShare/archive/zhuzixuan/cascade_dataset/ACDC/lists_ACDC")
-    parser.add_argument("--root_dir", default="/defaultShare/archive/zhuzixuan/cascade_dataset/ACDC/")
-    parser.add_argument("--volume_path", default="/defaultShare/archive/zhuzixuan/cascade_dataset/ACDC/test")
+    parser.add_argument("--list_dir", default="/path/to/lists_ACDC") # TODO: replace with actual path
+    parser.add_argument("--root_dir", default="/path/to/ACDC/") # TODO: replace with actual path (root of ACDC dataset)
+    parser.add_argument("--volume_path", default="/path/to/ACDC/test") # TODO: replace with actual path
     parser.add_argument("--z_spacing", default=10)
     parser.add_argument("--num_classes", default=4)
+    parser.add_argument('--is_savefig', default=False, action="store_true", help='whether to save results during inference')
     parser.add_argument('--test_save_dir', default='./predictions', help='saving prediction as nii!')
     parser.add_argument('--deterministic', type=int,  default=1,
                     help='whether use deterministic training')
@@ -86,7 +87,8 @@ if __name__ == "__main__":
     if args.merit_type == 'MERIT_Parallel':
         args.exp = 'MERIT_Parallel_Small_loss_MUTATION_w3_7_' + str(args.img_size)
         print("########## Using MERIT_Parallel ##########")
-    current_time = '2024-09-26 17'
+    current_time = time.strftime("%H%M%S")
+    print("The current time is", current_time)
     
 
     if args.dual:
@@ -100,27 +102,30 @@ if __name__ == "__main__":
     snapshot_path = snapshot_path + '_'+str(args.img_size)
     snapshot_path = snapshot_path + '_s'+str(args.seed) if args.seed!=1234 else snapshot_path
     
-    snapshot = os.path.join(snapshot_path, 'best.pth')
-    if not os.path.exists(snapshot): snapshot = snapshot.replace('best', 'epoch_'+str(args.max_epochs-1))
-    print(snapshot)
     
-    snapshot_name = snapshot_path.split('/')[-1]
-    log_folder = 'test_log/test_log_vis_o' + args.exp
+    log_folder = 'test_log/test_log_' + args.exp
     os.makedirs(log_folder, exist_ok=True)
-    logging.basicConfig(filename=log_folder + '/'+snapshot_name+".txt", level=logging.INFO, format='[%(asctime)s.%(msecs)03d] %(message)s', datefmt='%H:%M:%S')
+    logging.basicConfig(filename=log_folder + "/log.txt", level=logging.INFO, format='[%(asctime)s.%(msecs)03d] %(message)s', datefmt='%H:%M:%S')
     logging.getLogger().addHandler(logging.StreamHandler(sys.stdout))
     logging.info(str(args))
-    logging.info(snapshot_name)
+    # logging.info(snapshot_name)
     
     snapshot_path = '' # TODO：Replace with the path to the model you want to test
     
-    test_save_path = os.path.join(os.path.dirname(snapshot_path), 'predictions')
-    os.makedirs(test_save_path, exist_ok=True)
+    if args.is_savefig:
+        test_save_path = os.path.join(os.path.dirname(snapshot_path), 'predictions')
+        os.makedirs(test_save_path, exist_ok=True)
+    else:
+        test_save_path = None
     
-    net=MERIT_Cascaded(n_class=args.num_classes, img_size_s1=(args.img_size,args.img_size), img_size_s2=(224,224), model_scale='small', decoder_aggregation='additive', interpolation='bilinear').cuda()
+    if args.dual:
+        logging.info("########## Using Dual Supervision ##########")
+        net=MERIT_Cascaded_dual(n_class=args.num_classes, img_size_s1=(args.img_size,args.img_size), img_size_s2=(224,224), model_scale='small', decoder_aggregation='additive', interpolation='bilinear').cuda()
+    else:
+        logging.info("########## Using Single Supervision ##########")
+        net=MERIT_Cascaded(n_class=args.num_classes, img_size_s1=(args.img_size,args.img_size), img_size_s2=(224,224), model_scale='small', decoder_aggregation='additive', interpolation='bilinear').cuda()
 
 
-    # net.load_state_dict(torch.load(snapshot))
     net.load_state_dict(torch.load(snapshot_path))
 
     db_test =ACDCdataset(base_dir=args.volume_path,list_dir=args.list_dir, split="test")
