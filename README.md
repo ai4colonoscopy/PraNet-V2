@@ -38,7 +38,7 @@ Accurate medical image segmentation is essential for effective diagnosis and tre
 ### Qualitative Results
 
 <div align=center>
-    <img src="./readme_img/Quantitative1.jpg" width="420"/><img src="./readme_img/Quantitative2.jpg" width="427"/>
+    <img src="./readme_img/Quantitative1.jpg" width="48%"/><img src="./readme_img/Quantitative2.jpg" width="49%"/>
 </div>
 
 <img src="./readme_img/Quantitative3.jpg" alt="Quantitative3" />
