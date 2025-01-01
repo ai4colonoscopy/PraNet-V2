@@ -16,12 +16,11 @@
 
 
 # 🔥News🔥
+- **`Jan 1, 2025`:**  Release training/testing code.
 
-**`Jan 1, 2025:`**Release training/testing code.
+- **`Dec 31, 2024:`**  Upload pre-trained weights.
 
-**`Dec 31, 2024:`**Upload pre-trained weights.
-
-**`Dec 18, 2024:`**Create repository.
+- **`Dec 18, 2024:`**  Create repository.
 
 # Overview
 
