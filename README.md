@@ -19,9 +19,27 @@
 
 
 
-# usage
+# Overview
 
-#### Environment Setup
+### Introduction
+
+
+
+### Framework Overview
+
+
+
+### Qualitative Results
+
+
+
+### Quantitative Results
+
+
+
+# Usage
+
+### Environment Setup
 
 ```bash
 git clone git@github.com:ai4colonoscopy/PraNet-V2.git
@@ -29,23 +47,28 @@ cd PraNet-V2
 # We use Python3.9, CUDA 12.2, PyTorch2.0.1.
 conda env create -f pranet2.yaml
 conda activate pranet2
+cd PraNet-V2
 ```
 
-#### Dataset Preparation
+### Dataset Preparation
 
 1. **Polyp datasets**
-   - To download the testing dataset, use this [Google Drive Link (327.2MB)](https://drive.google.com/file/d/1Y2z7FD5p5y31vkZwQQomXFRB0HutHyao/view?usp=sharing) and place it in the directory `./data/TestDataset/`.
-   - For the training dataset, download it from this [Google Drive Link (399.5MB)](https://drive.google.com/file/d/1YiGHLw4iTvKdvbT6MgwO9zcCv8zJ_Bnb/view?usp=sharing) and move it to `./data/TrainDataset/`.
+   - To download the training and testing datasets, use this [Google Drive Link](https://drive.google.com/drive/folders/1Hi-ztnzRtWvdGejYHTyOAn6fNBWcWLik?usp=drive_link) and place it in the directory `./binary/data`.
 2. **ACDC and Synapse datasets**
-   - Please refer to the [EMCAD](https://github.com/SLDGroup/EMCAD) for the preprocessed dataset used in this project. Make sure to follow their guidelines for proper usage.
+   - Please refer to the [EMCAD](https://github.com/SLDGroup/EMCAD) for the preprocessed dataset used in this project. Make sure to follow their guidelines for proper usage. 
 
-#### Weights Preparation
+### Weights Preparation
+**We also need PVTV2B2 and Res2Net weights**,  Please [click here to download](https://drive.google.com/drive/folders/17VuWBy6CnEXF7kASydQGsZgYFjiwhez2?usp=drive_link) them. 🎯
 
-💾 **Need PVTV2B2 and Res2Net weights**， Please [click here to download](xxx) 🎯
+
 
 # Interface
 
-📦 Before running the inference script, make sure to grab the **pre-trained model weights** 🔗 [Download here](xxx). Then, organize the PraNet series models under `./binary/snapshots` following the structure below:
+📦 Before running the inference script, make sure to grab the [pre-trained model weights](https://drive.google.com/drive/folders/1o4UHzI48wwEtpz-J91dnIRhtYy67lFCO?usp=drive_link) 🔗. 
+
+### PraNet-V2 series
+
+We recommend to organize the PraNet series models under `./binary/snapshots` following the structure below:
 
 ```
 snapshots
@@ -59,29 +82,43 @@ snapshots
     └── PVT-V1.pth
 ```
 
-For the multi-class segmentation models, place them in their respective model_pth folders. For example:
+Next, don’t forget to fill in the model path and segmentation result save path as guided by the **TODO markers**. Once done, run the following command: 
+
+```bash
+cd ./binary
+python -W ignore ./MyTest_med.py
+```
+
+The polyp segmentation results will be saved in your predefined result save path. 📂
+
+After that, follow the steps in the [Evaluation](#evaluation) section to obtain all the metrics! 📊 
+
+### Multi-class segmentation models
+
+For the multi-class segmentation models, place our trained models in their respective `model_pth` folders. For example:
 
 `./multi-class/EMCAD/model_pth/ACDC/EMCAD_ACDC.pth`
 
-Then, run the corresponding inference scripts to generate segmentation or test results:
-
-1. PraNet-V2 series： Please make sure to fill in the model paths and segmentation result save paths as guided by the TODO markers and run `python -W ignore ./binary/MyTest_med.py`
-2. Multi-class segmentation models:
+Then, run the corresponding inference scripts to get test results (📝Logs will be saved in `./test_log`) :
 
 ```bash
-# MIST
+# MIST 
+cd ./multi-class/MIST-main
 python -W ignore Synapse_test.py 
 python -W ignore test_ACDC.py
 
 # EMCAD
+cd ./multi-class/EMCAD
 python -W ignore test_synapse.py
+
+# 【Visualization】 Use the –is_savefig option to save visualization results, e.g., python -W ignore Synapse_test.py --is_savefig.
 ```
 
 
 
-
-
 # Evaluation
+
+### PraNet-V2 series
 
 For the **PraNet series models**, follow the **Interface** steps to generate segmentation results, which will be saved in the results folder. Afterward, run the `eval.py` script to generate a performance evaluation table in the `eval_results` folder.
 
@@ -95,57 +132,23 @@ The `eval.py` script provides **four eval_config options** for evaluating the pe
 
 For the three **multi-class segmentation models**, the evaluation results are already logged during the **Interface** step
 
-# Training
-
-### PraNet-V2
 
 
-
-### PVT-PraNet-V2
-
-
-
-### MERIT
-
-
-
-### MIST
-
-
-
-### EMCAD
-
-
-
-
-
-# Bibtex 
-
-
+### Multi-class segmentation models
 
 
 
 # Training
 
-### PraNet-V2
+### PraNet-V2 series
 
 
 
-### PVT-PraNet-V2
+### Multi-class segmentation models
 
 
 
-### MERIT
-
-
-
-### MIST
-
-
-
-### EMCAD
-
-
+## Acknowledgement:
 
 
 
