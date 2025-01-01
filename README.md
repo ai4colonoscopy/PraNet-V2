@@ -108,9 +108,7 @@ After that, follow the steps in the [Evaluation](#evaluation) section to obtain 
 
 ### Multi-class segmentation models
 
-For the multi-class segmentation models, place our trained models in their respective `model_pth` folders. For example:
-
-`./multi-class/EMCAD/model_pth/ACDC/EMCAD_ACDC.pth`
+For the multi-class segmentation models, place our trained models in their respective `model_pth` folders. For example: `./multi-class/EMCAD/model_pth/ACDC/EMCAD_ACDC.pth`
 
 Then, run the corresponding inference scripts to get test results (📝Logs will be saved in `./test_log`) :
 
