@@ -26,7 +26,7 @@
 
 ### Abstract
 
-Accurate medical image segmentation is essential for effective diagnosis and treatment. PraNet-V1 enhanced polyp segmentation by introducing a parallel reverse attention (RA) module that leverages background information. However, it is limited in handling complex multi-organ segmentation within medical imaging datasets. To extend the applicability of RA to a broader range of medical imaging tasks, we propose a Dual-Supervised Reverse Attention (DSRA) module, which incorporates explicit background supervision, independent background modeling structure and semantically enriched attention fusion. Based on DSRA, we develop the PraNet-V2 framework, which shows strong performance across diverse polyp segmentation datasets. Additionally, leveraging DSRA as a plug-and-play module, we integrate DSRA into three state-of-the-art models for medical image semantic segmentation and achieved a maximum improvement of 1.36% in the Dice score compared to their original performances.
+Accurate medical image segmentation is essential for effective diagnosis and treatment. PraNet-V1 enhanced polyp segmentation by introducing a parallel reverse attention (RA) module that leverages background information. However, it is limited in handling complex multi-organ segmentation within medical imaging datasets. To extend the applicability of RA to a broader range of medical imaging tasks, we propose a **Dual-Supervised Reverse Attention (DSRA)** module, which incorporates explicit background supervision, independent background modeling structure and semantically enriched attention fusion. Based on DSRA, we develop the PraNet-V2 framework, which shows strong performance across diverse polyp segmentation datasets. Additionally, leveraging DSRA as a plug-and-play module, we integrate DSRA into three state-of-the-art models for medical image semantic segmentation and achieved a maximum improvement of **1.36%** in the Dice score compared to their original performances.
 
 
 
@@ -161,7 +161,7 @@ For the three **multi-class segmentation models**, the evaluation results are al
 
 
 
-## Acknowledgement:
+# Acknowledgement
 
 A huge thanks to the following **excellent works**: [PraNet](https://github.com/DengPingFan/PraNet), [Polyp-PVT](https://github.com/DengPingFan/Polyp-PVT), [UACANet](https://github.com/plemeri/UACANet), [CASCADE](https://github.com/SLDGroup/CASCADE), [MERIT](https://github.com/SLDGroup/MERIT), [MIST](https://github.com/Rahman-Motiur/MIST), and [EMCAD](https://github.com/SLDGroup/EMCAD). 🙌✨
 
