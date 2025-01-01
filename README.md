@@ -33,21 +33,21 @@ Accurate medical image segmentation is essential for effective diagnosis and tre
 
 ### Framework Overview
 
-<img src="./readme_img/pipline.jpg" alt="Quantitative1" style="zoom: 33%;" />
+<img src="./readme_img/pipline.jpg" alt="pipline" style="zoom: 33%;" />
 
 ### Qualitative Results
 
-<img src="./readme_img/Quantitative1.jpg" alt="Quantitative1" style="zoom: 33%;" />
+<div align=center>
+    <img src="./readme_img/Quantitative1.jpg" width="420"/><img src="./readme_img/Quantitative2.jpg" width="427"/>
+</div>
 
-<img src="./readme_img/Quantitative2.jpg" alt="Quantitative1" style="zoom: 33%;" />
-
-<img src="./readme_img/Quantitative3.jpg" alt="Quantitative1" style="zoom: 33%;" />
+<img src="./readme_img/Quantitative3.jpg" alt="Quantitative3" />
 
 ### Quantitative Results
 
-<img src="./readme_img/Qualitative1.jpg" alt="Quantitative1" style="zoom: 33%;" />
+<img src="./readme_img/Qualitative1.jpg" alt="Qualitative1" style="zoom: 33%;" />
 
-<img src="./readme_img/Qualitative2.jpg" alt="Quantitative1" style="zoom: 33%;" />
+<img src="./readme_img/Qualitative2.jpg" alt="Qualitative2" style="zoom: 33%;" />
 
 
 
