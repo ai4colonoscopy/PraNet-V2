@@ -71,7 +71,47 @@ cd PraNet-V2
    - Please refer to the [EMCAD](https://github.com/SLDGroup/EMCAD) for the preprocessed dataset used in this project. Make sure to follow their guidelines for proper usage. 
 
 ### Weights Preparation
-**We also need PVTV2B2 and Res2Net weights**,  Please [click here to download](https://drive.google.com/drive/folders/17VuWBy6CnEXF7kASydQGsZgYFjiwhez2?usp=drive_link) them. 🎯
+**We also require the pre-trained weights for PVTV2B2, Res2Net, and VIT**,  Please [click here to download](https://drive.google.com/drive/folders/17VuWBy6CnEXF7kASydQGsZgYFjiwhez2?usp=drive_link) them 🎯. Then, make sure to place the files in the following locations:
+
+1. 🗂️ `pvt_v2_b2.pth`:
+   - `./binary/models`
+   - `./multi-class/EMCAD/pretrained_pth/pvt`
+
+2. 🗂️ `maxvit_rmlp_small_rw_224_sw-6ef0ae4f.pth` and `maxxvit_rmlp_small_rw_256_sw-37e217ff.pth`:
+   - `./multi-class/MERIT/maxvit`
+   - `./multi-class/MIST-main/maxvit`
+
+3. 🗂️ `res2net50_v1b_26w_4s-3cf99910.pth`:
+   - `./binary/models`
+
+📋 The final file organization should look like this:
+
+```
+binary
+├── models
+│   ├── pvt_v2_b2.pth
+│   ├── res2net50_v1b_26w_4s-3cf99910.pth
+├── ...
+
+multi-class
+├── EMCAD
+│   ├── pretrained_pth
+│   │   ├── pvt
+│   │   │   ├── pvt_v2_b2.pth
+│   ├── ...
+├── MIST-main
+│   ├── pretrained_pth
+│   │   ├── maxvit
+│   │   │   ├── maxvit_rmlp_small_rw_224_sw-6ef0ae4f.pth
+│   │   │   ├── maxxvit_rmlp_small_rw_256_sw-37e217ff.pth
+│   ├── ...
+├── MERIT
+│   ├── pretrained_pth
+│   │   ├── maxvit
+│   │   │   ├── maxvit_rmlp_small_rw_224_sw-6ef0ae4f.pth
+│   │   │   ├── maxxvit_rmlp_small_rw_256_sw-37e217ff.pth
+│   ├── ...
+```
 
 
 
@@ -95,7 +135,7 @@ snapshots
     └── PVT-V1.pth
 ```
 
-Next, don’t forget to fill in the model path and segmentation result save path as guided by the **TODO markers**. Once done, run the following command: 
+Next, don’t forget to fill in the model path and segmentation result save path as guided by the **TODO markers** in `MyTest.py`. Once done, run the following command: 
 
 ```bash
 cd ./binary
@@ -110,9 +150,17 @@ After that, follow the steps in the [Evaluation](#evaluation) section to obtain 
 
 For the multi-class segmentation models, place our trained models in their respective `model_pth` folders. For example: `./multi-class/EMCAD/model_pth/ACDC/EMCAD_ACDC.pth`
 
-Then, run the corresponding inference scripts to get test results (📝Logs will be saved in `./test_log`) :
+Next, update the *dataset path* and *model path* in the test script based on the **TODO markers**. We recommend changing the default values directly to avoid overly long command-line arguments. For example:
+
+```python
+parser.add_argument('--volume_path', type=str,default='./data/synapse/test_vol_h5_new', help='root dir for validation volume data') # TODO: replace with actual path
+```
+
+Finally, run the corresponding inference scripts to get test results (📝Logs will be saved in `./test_log`) :
 
 ```bash
+export CUDA_VISIABLE_DEVICES=0 # using single GPU
+
 # MIST 
 cd ./multi-class/MIST-main
 python -W ignore Synapse_test.py 
@@ -134,14 +182,15 @@ python -W ignore test_synapse.py
 For the **PraNet series models**, follow the **Interface** steps to generate segmentation results, which will be saved in the results folder. Afterward, run the `eval.py` script to generate a performance evaluation table in the `eval_results` folder.
 
 ```
-python -W ignore ./binary/eval.py
+cd ./binary
+python -W ignore ./eval.py
 ```
 
 The `eval.py` script provides **four eval_config options** for evaluating the performance of the following models: PraNet-V1、PVT-PraNet-V1、PraNet-V2、PVT-PraNet-V2. You can try different configs in the script to check out the evaluation results for these models.
 
 ### Multi-class segmentation models
 
-For the three **multi-class segmentation models**, the evaluation results are already logged during the **Interface** step.
+For the three **multi-class segmentation models**, the evaluation results are already logged in the `test_log` folder during the [interface](#multi-class-segmentation-models) step.
 
 
 
@@ -149,13 +198,40 @@ For the three **multi-class segmentation models**, the evaluation results are al
 
 ### PraNet-V2 series
 
+The data path is pre-configured. Follow the **TODO markers** in MyTrain_med.py to set the model save path and select the training model type. (**PraNet-V2** with ResNet50 as the backbone; **PVT-PraNet-V2** with PVTV2B2 as the backbone)
 
+```bash
+cd ./binary
+python -W ignore ./MyTrain_med.py --model_type PraNet-V2 # train PraNet-V2 with resnet50
+python -W ignore ./MyTrain_med.py --model_type PVT-PraNet-V2 # train PVT-PraNet-V2 with PVTV2B2
+```
 
 
 
 ### Multi-class segmentation models
 
+Just like the [interface](#multi-class-segmentation-models) section, you’ll need to provide the dataset paths for your environment by following the **TODO markers** in the training scripts. Once done, run the command:
 
+```bash
+export CUDA_VISIABLE_DEVICES=0 # using single GPU 
+
+### train MERIT (w/DSTA)###
+cd ./multi-class/MERIT
+# On ACDC dataset
+python -W ignore train_ACDC.py 
+
+### train MIST (w/DSTA)###
+cd ./multi-class/MIST-main
+# On ACDC dataset
+python -W ignore ACDC_train_test.py
+# On Synapse dataset
+python -W ignore Synapse_train.py
+
+# train EMCAD (w/DSTA)###
+cd ./multi-class/EMCAD
+# On Synapse dataset
+python -W ignore train_synapse.py
+```
 
 
 
