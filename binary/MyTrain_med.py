@@ -131,15 +131,29 @@ if __name__ == '__main__':
     parser.add_argument('--decay_epoch', type=int,
                         default=50, help='every n epochs decay learning rate')
     parser.add_argument('--train_path', type=str,
-                        default='./data/medTrainDataset', help='path to train dataset')
-    parser.add_argument('--train_save', type=str,
-                        default='PraNetV2_res') # TODO: Change the name of the folder to save the model
+                        default='./data/TrainDataset', help='path to train dataset')
+    parser.add_argument('--train_save', type=str, default='PraNetV2_res') # TODO: Change the name of the folder to save the model
+    parser.add_argument('--model_type', type=str, default='PraNet-V2') # TODO: Choose which model to train【PraNet-V2 or PVT-PraNet-V2】
     opt = parser.parse_args()
-    opt.train_path = "/zhuzixuan/PraNet/data/TrainDataset" # TODO: Replace with the path to the training dataset
 
+    # ---- load data ----
+    image_root = '{}/images/'.format(opt.train_path)
+    gt_root = '{}/masks/'.format(opt.train_path)
+
+    train_loader = get_loader(image_root, gt_root, batchsize=opt.batchsize, trainsize=opt.trainsize)
+    print("length of train dataset: {}".format(len(train_loader)))
+    total_step = len(train_loader)
+    print("#"*20, "Start Training", "#"*20)
+    import sys
+    sys.exit(0)
+    
     # ---- build models ----
-    # model = PVT_PraNet_V2(num_class=1).cuda() # using PraNet-V2 with PVT-V2-B2
-    model = PraNet_V2(num_class=1).cuda() # using PraNet-V2 with Res2Net
+    if opt.model_type == 'PraNet-V2':
+        model = PraNet_V2(num_class=1).cuda()
+    elif opt.model_type == 'PVT-PraNet-V2':
+        model = PVT_PraNet_V2(num_class=1).cuda()
+    else:
+        raise ValueError('Model Not Found, choose from [PraNet-V2, PVT-PraNet-V2]')
     
 
     # ---- flops and params ----
@@ -150,14 +164,7 @@ if __name__ == '__main__':
     params = model.parameters()
     optimizer = torch.optim.Adam(params, opt.lr)
 
-    image_root = '{}/images/'.format(opt.train_path)
-    gt_root = '{}/masks/'.format(opt.train_path)
 
-    train_loader = get_loader(image_root, gt_root, batchsize=opt.batchsize, trainsize=opt.trainsize)
-    print("length of train dataset: {}".format(len(train_loader)))
-    total_step = len(train_loader)
-
-    print("#"*20, "Start Training", "#"*20)
     
     eval_config={
     "datasets": ['CVC-300', 'CVC-ClinicDB'],

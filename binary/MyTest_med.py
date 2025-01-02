@@ -54,15 +54,20 @@ if __name__ == "__main__":
     # parser.add_argument('--pth_path', type=str, default='./snapshots/PraNet-V2/RES-V2.pth')
     # parser.add_argument('--pth_path', type=str, default='./snapshots/PVT-PraNet-V2/PVT-V2.pth')
     parser.add_argument('--pth_path', type=str, default='./snapshots/PVT-PraNet-V2/PVT-V2-ep20.pth') # TODO: Replace with the path to the model you want to test
-    
+    parser.add_argument('--model_type', type=str, default='PraNet-V2') # TODO: Choose which model to train【PraNet-V2 or PVT-PraNet-V2】
 
     for _data_name in tqdm(['CVC-300', 'CVC-ClinicDB', 'Kvasir', 'ETIS-LaribPolypDB'],desc="Testing in Datasets:"):
 
         data_path = './data/TestDataset/{}/'.format(_data_name)
         save_path = './results/PVT-PraNet-V2-ep20/{}/'.format(_data_name) # TODO: Change the name of the folder to save the segmentation results
         opt = parser.parse_args()
-        # model = PraNet_V2() # TODO: use PraNet_V2 model
-        model = PVT_PraNet_V2(num_class=1) # TODO: use PVT-PraNet_V2 model
+        # ---- build models ----
+        if opt.model_type == 'PraNet-V2':
+            model = PraNet_V2(num_class=1).cuda()
+        elif opt.model_type == 'PVT-PraNet-V2':
+            model = PVT_PraNet_V2(num_class=1).cuda()
+        else:
+            raise ValueError('Model Not Found, choose from [PraNet-V2, PVT-PraNet-V2]')
         model.load_state_dict(torch.load(opt.pth_path))
         model.cuda()
         model.eval()
