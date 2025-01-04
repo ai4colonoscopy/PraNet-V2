@@ -141,4 +141,3 @@ dependencies:
       - triton==2.0.0
       - urllib3==2.2.3
       - zipp==3.20.2
-prefix: /zhuzixuan/miniconda3/envs/pranet2
