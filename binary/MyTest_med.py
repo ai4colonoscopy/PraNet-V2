@@ -54,7 +54,7 @@ if __name__ == "__main__":
     # parser.add_argument('--pth_path', type=str, default='./snapshots/PraNet-V2/RES-V2.pth')
     # parser.add_argument('--pth_path', type=str, default='./snapshots/PVT-PraNet-V2/PVT-V2.pth')
     parser.add_argument('--pth_path', type=str, default='./snapshots/PVT-PraNet-V2/PVT-V2-ep20.pth') # TODO: Replace with the path to the model you want to test
-    parser.add_argument('--model_type', type=str, default='PraNet-V2') # TODO: Choose which model to train【PraNet-V2 or PVT-PraNet-V2】
+    parser.add_argument('--model_type', type=str, default='PraNet-V2') # TODO: Choose which model to train【PraNet-V1, PVT-PraNet-V1, PraNet-V2 or PVT-PraNet-V2】
 
     for _data_name in tqdm(['CVC-300', 'CVC-ClinicDB', 'Kvasir', 'ETIS-LaribPolypDB'],desc="Testing in Datasets:"):
 
