@@ -32,7 +32,7 @@ def test_with_eval(eval_config,model):
             gt = np.asarray(gt, np.float32)
             gt /= (gt.max() + 1e-8)
             image = image.cuda()
-
+            
             p2, p3, p4, p5, _, _, _, _ = model(image)
             output = p2+p3+p4+p5
             output = F.interpolate(output, size=gt.shape, mode='bilinear', align_corners=False)
@@ -86,11 +86,18 @@ if __name__ == "__main__":
             gt /= (gt.max() + 1e-8)
             image = image.cuda()
 
-            res2, res3, res4, res5, res2_bg, res3_bg, res4_bg, res5_bg = model(image)
-            res = res2 + res3 + res4 + res5
-            res = F.interpolate(res, size=gt.shape, mode='bilinear', align_corners=False)
-            res = res.sigmoid().data.cpu().numpy().squeeze()
-            res = (res - res.min()) / (res.max() - res.min() + 1e-8)
+            if opt.model_type in ['PraNet-V1', 'PVT-PraNet-V1']:
+                res2, res3, res4, res5 = model(image)
+                res = res2
+                res = F.interpolate(res, size=gt.shape, mode='bilinear', align_corners=False)
+                res = res.sigmoid().data.cpu().numpy().squeeze()
+                res = (res - res.min()) / (res.max() - res.min() + 1e-8)
+            else:
+                res2, res3, res4, res5, res2_bg, res3_bg, res4_bg, res5_bg = model(image)
+                res = res2 + res3 + res4 + res5
+                res = F.interpolate(res, size=gt.shape, mode='bilinear', align_corners=False)
+                res = res.sigmoid().data.cpu().numpy().squeeze()
+                res = (res - res.min()) / (res.max() - res.min() + 1e-8)
 
 
             res_uint8 = (res * 255).astype(np.uint8)
