@@ -3,7 +3,7 @@ import torch.nn.functional as F
 import numpy as np
 import os, argparse
 from scipy import misc
-from lib.PraNet_Res2Net import PraNet
+from lib.PraNet_Res2Net import PraNet, PVT_PraNet
 from utils.dataloader import test_dataset
 
 import imageio
@@ -66,10 +66,13 @@ if __name__ == "__main__":
             model = PraNet_V2(num_class=1).cuda()
         elif opt.model_type == 'PVT-PraNet-V2':
             model = PVT_PraNet_V2(num_class=1).cuda()
+        elif opt.model_type == 'PraNet-V1':
+            model = PraNet().cuda()
+        elif opt.model_type == 'PVT-PraNet-V1':
+            model = PVT_PraNet().cuda()
         else:
-            raise ValueError('Model Not Found, choose from [PraNet-V2, PVT-PraNet-V2]')
+            raise ValueError('Model Not Found, choose from [PraNet-V1, PVT-PraNet-V1, PraNet-V2, PVT-PraNet-V2]')
         model.load_state_dict(torch.load(opt.pth_path))
-        model.cuda()
         model.eval()
 
         os.makedirs(save_path, exist_ok=True)
