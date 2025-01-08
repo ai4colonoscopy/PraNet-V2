@@ -163,12 +163,12 @@ export CUDA_VISIABLE_DEVICES=0 # using single GPU
 
 # MIST 
 cd ./multi-class/MIST-main
-python -W ignore Synapse_test.py 
-python -W ignore test_ACDC.py
+python -W ignore Synapse_test.py --dual
+python -W ignore test_ACDC.py --dual
 
 # EMCAD
-cd ./multi-class/EMCAD
-python -W ignore test_synapse.py
+cd ./multi-class/EMCAD --dual
+python -W ignore test_synapse.py --dual
 
 # 【Visualization】 Use the –is_savefig option to save visualization results, e.g., python -W ignore Synapse_test.py --is_savefig.
 ```
@@ -218,19 +218,19 @@ export CUDA_VISIABLE_DEVICES=0 # using single GPU
 ### train MERIT (w/DSTA)###
 cd ./multi-class/MERIT
 # On ACDC dataset
-python -W ignore train_ACDC.py 
+python -W ignore train_ACDC.py --dual
 
 ### train MIST (w/DSTA)###
 cd ./multi-class/MIST-main
 # On ACDC dataset
-python -W ignore ACDC_train_test.py
+python -W ignore ACDC_train_test.py --dual
 # On Synapse dataset
-python -W ignore Synapse_train.py
+python -W ignore Synapse_train.py --dual
 
 # train EMCAD (w/DSTA)###
 cd ./multi-class/EMCAD
 # On Synapse dataset
-python -W ignore train_synapse.py
+python -W ignore train_synapse.py --dual
 ```
 
 
