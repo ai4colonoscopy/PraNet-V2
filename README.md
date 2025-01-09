@@ -129,10 +129,10 @@ snapshots
 │   └── RES-V1.pth
 ├── PraNet-V2
 │   └── RES-V2.pth
-├── PVT-PraNet-V2
-│   └── PVT-V2.pth
-└── PVT-V1
-    └── PVT-V1.pth
+├── PVT-PraNet-V1
+│   └── PVT-V1.pth
+└── PVT-PraNet-V2
+    └── PVT-V2.pth
 ```
 
 Next, don’t forget to fill in the model path and segmentation result save path as guided by the **TODO markers** in `MyTest.py`. Once done, run the following command: 
