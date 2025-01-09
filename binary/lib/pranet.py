@@ -160,7 +160,7 @@ class PVT_PraNet_V2(nn.Module):
         self.rfb4_1 = RFB_modified(512, channel)
         # ---- Partial Decoder ----
         self.agg1 = aggregation(channel,self.num_class)
-        # ---- reverse attention branch 4 ----
+        # ---- DSRA3 ----
         self.ra4_conv1 = BasicConv2d(512, 256, kernel_size=1)
         self.ra4_conv2 = BasicConv2d(256, 256, kernel_size=5, padding=2)
         self.ra4_conv3 = BasicConv2d(256, 256, kernel_size=5, padding=2)
@@ -169,7 +169,7 @@ class PVT_PraNet_V2(nn.Module):
         self.ra4_conv5_fg = BasicConv2d(256, num_class, kernel_size=1) # V2 newly added, for foreground
         self.ra4_conv5_bg = BasicConv2d(256, num_class, kernel_size=1) # V2 newly added, for background
  
-        # ---- reverse attention branch 3 ---- 
+        # ---- DSRA2 ---- 
         self.ra3_conv1 = BasicConv2d(320, 64, kernel_size=1)
         self.ra3_conv2 = BasicConv2d(64, 64, kernel_size=3, padding=1)
         self.ra3_conv3 = BasicConv2d(64, 64, kernel_size=3, padding=1)
@@ -177,7 +177,7 @@ class PVT_PraNet_V2(nn.Module):
         self.ra3_conv4_fg = BasicConv2d(64, num_class, kernel_size=3, padding=1) # V2 newly added, for foreground
         self.ra3_conv4_bg = BasicConv2d(64, num_class, kernel_size=3, padding=1) # V2 newly added, for background
 
-        # ---- reverse attention branch 2 ----
+        # ---- DSRA1 ----
         self.ra2_conv1 = BasicConv2d(128, 64, kernel_size=1)
         self.ra2_conv2 = BasicConv2d(64, 64, kernel_size=3, padding=1)
         self.ra2_conv3 = BasicConv2d(64, 64, kernel_size=3, padding=1)
@@ -189,6 +189,7 @@ class PVT_PraNet_V2(nn.Module):
     def forward(self, x,segSize=None):
         if x.size()[1] == 1:
             x = self.conv(x)
+        # ----Encoder stage1~4----
         x1,x2,x3,x4=self.backbone(x)    # Obtain feature maps from four different layers（H/4 W/4 64    H/8 W/8 128  H/16 W/416 320  H/32 W/32 512）
         
         x2_rfb = self.rfb2_1(x2)        # channel -> 32
@@ -200,12 +201,10 @@ class PVT_PraNet_V2(nn.Module):
         lateral_map_5_fg = F.interpolate(ra5_feat_fg, scale_factor=8/self.sem_downsample, mode='bilinear')    # 修改 NOTES: Sup-1 (bs, 3, 44, 44) -> (bs, 3, 352, 352)
         lateral_map_5_bg = F.interpolate(ra5_feat_bg, scale_factor=8/self.sem_downsample, mode='bilinear')
 
-        # ---- reverse attention branch_4 ----
+        # ---- DSRA3 ----
         crop_4_fg = F.interpolate(ra5_feat_fg, scale_factor=0.25, mode='bilinear') # _,_,H/32,W/32
         crop_4_bg = F.interpolate(ra5_feat_bg, scale_factor=0.25, mode='bilinear') # _,_,H/32,W/32
  
-        
-
         x = self.ra4_conv1(x4)
         x = F.relu(self.ra4_conv2(x))
         x = F.relu(self.ra4_conv3(x))
@@ -219,12 +218,11 @@ class PVT_PraNet_V2(nn.Module):
         else:
             ra4_feat_fg=ra4_feat_fg+ra4_feat_fg.mul(crop_4_fg-crop_4_bg)
 
-
         lateral_map_4_fg = F.interpolate(ra4_feat_fg, scale_factor=32/self.sem_downsample, mode='bilinear')
         lateral_map_4_bg=F.interpolate(ra4_feat_bg, scale_factor=32/self.sem_downsample, mode='bilinear')
 
 
-        # ---- reverse attention branch_3 ----
+        # ---- DSRA2 ----
         crop_3_fg = F.interpolate(ra4_feat_fg, scale_factor=2, mode='bilinear')
         crop_3_bg = F.interpolate(ra4_feat_bg, scale_factor=2, mode='bilinear')
 
@@ -243,7 +241,7 @@ class PVT_PraNet_V2(nn.Module):
         lateral_map_3_fg = F.interpolate(ra3_feat_fg, scale_factor=16/self.sem_downsample, mode='bilinear')  # NOTES: Sup-3 (bs, 1, 22, 22) -> (bs, 1, 352, 352)
         lateral_map_3_bg = F.interpolate(ra3_feat_bg, scale_factor=16/self.sem_downsample, mode='bilinear')
 
-        # ---- reverse attention branch_2 ----
+        # ---- DSRA1 ----
         crop_2_fg = F.interpolate(ra3_feat_fg, scale_factor=2, mode='bilinear')
         crop_2_bg = F.interpolate(ra3_feat_bg, scale_factor=2, mode='bilinear')
         
@@ -263,20 +261,6 @@ class PVT_PraNet_V2(nn.Module):
         lateral_map_2_bg = F.interpolate(ra2_feat_bg, scale_factor=8/self.sem_downsample, mode='bilinear')
 
         return lateral_map_2_fg,lateral_map_3_fg,lateral_map_4_fg,lateral_map_5_fg,lateral_map_2_bg,lateral_map_3_bg,lateral_map_4_bg,lateral_map_5_bg
-
-
-    def save_middle_map(self, feature_map,layer_name,img_size):
-        save_dir='/zhuzixuan/semantic-segmentation-pytorch/middle_feature_maps/pranet2'
-        os.makedirs(save_dir, exist_ok=True)
-        min_value = feature_map.min().item()
-        max_value = feature_map.max().item()
-        print(f"Layer {layer_name} Feature map extra: min value = {min_value}, max value = {max_value}, map_size = {feature_map.size()}")
-
-        if min_value < 0 or max_value > 1:
-            # Normalize the feature map to the range [0, 1]
-            feature_map = feature_map.mean(dim=1, keepdim=True)
-            feature_map = (feature_map - min_value) / (max_value - min_value)
-        save_image(feature_map, os.path.join(save_dir, f'feature_map_{layer_name}_{img_size[-1]}.png'))
 
     
     
@@ -315,7 +299,7 @@ class PraNet_V2(nn.Module):
         self.rfb4_1 = RFB_modified(2048, channel)
         # ---- Partial Decoder ----
         self.agg1 = aggregation(channel,self.num_class)
-        # ---- reverse attention branch 4 ----
+        # ---- DSRA3 ----
         self.ra4_conv1 = BasicConv2d(2048, 256, kernel_size=1)
         self.ra4_conv2 = BasicConv2d(256, 256, kernel_size=5, padding=2)
         self.ra4_conv3 = BasicConv2d(256, 256, kernel_size=5, padding=2)
@@ -324,10 +308,7 @@ class PraNet_V2(nn.Module):
         self.ra4_conv5_fg = BasicConv2d(256, num_class, kernel_size=1) # V2 newly added, for foreground
         self.ra4_conv5_bg = BasicConv2d(256, num_class, kernel_size=1) # V2 newly added, for background
  
-
-        # self.ra4_conv5 = BasicConv2d(256, 1, kernel_size=1)
-
-        # ---- reverse attention branch 3 ---- 
+        # ---- DSRA2 ---- 
         self.ra3_conv1 = BasicConv2d(1024, 64, kernel_size=1)
         self.ra3_conv2 = BasicConv2d(64, 64, kernel_size=3, padding=1)
         self.ra3_conv3 = BasicConv2d(64, 64, kernel_size=3, padding=1)
@@ -335,9 +316,7 @@ class PraNet_V2(nn.Module):
         self.ra3_conv4_fg = BasicConv2d(64, num_class, kernel_size=3, padding=1) # V2 newly added, for foreground
         self.ra3_conv4_bg = BasicConv2d(64, num_class, kernel_size=3, padding=1) # V2 newly added, for background
 
-        # self.ra3_conv4 = BasicConv2d(64, 1, kernel_size=1)
-
-        # ---- reverse attention branch 2 ----
+        # ---- DSRA1 ----
         self.ra2_conv1 = BasicConv2d(512, 64, kernel_size=1)
         self.ra2_conv2 = BasicConv2d(64, 64, kernel_size=3, padding=1)
         self.ra2_conv3 = BasicConv2d(64, 64, kernel_size=3, padding=1)
@@ -345,21 +324,20 @@ class PraNet_V2(nn.Module):
         self.ra2_conv4_fg = BasicConv2d(64, num_class, kernel_size=3, padding=1) # V2 newly added, for foreground
         self.ra2_conv4_bg = BasicConv2d(64, num_class, kernel_size=3, padding=1) # V2 newly added, for background
 
-        # self.ra2_conv4 = BasicConv2d(64, 1, kernel_size=1)
-
 
 
     def forward(self, x,segSize=None):
-        # ----Initial conv, norm, activation, and pooling----
+        # ----Encoder stage1----
         x = self.backbone.conv1(x)
         x = self.backbone.bn1(x)
         x = self.backbone.relu(x)
         x = self.backbone.maxpool(x)      # bs, 64, 88, 88
-        # ---- low-level features ----
         x1 = self.backbone.layer1(x)      # bs, 256, 88, 88
+        # ----Encoder stage2----
         x2 = self.backbone.layer2(x1)     # bs, 512, 44, 44
-
+        # ----Encoder stage3----
         x3 = self.backbone.layer3(x2)     # bs, 1024, 22, 22
+        # ----Encoder stage4----
         x4 = self.backbone.layer4(x3)     # bs, 2048, 11, 11
 
         x2_rfb = self.rfb2_1(x2)        # channel -> 32
@@ -371,7 +349,7 @@ class PraNet_V2(nn.Module):
         lateral_map_5_fg = F.interpolate(ra5_feat_fg, scale_factor=8/self.sem_downsample, mode='bilinear')
         lateral_map_5_bg = F.interpolate(ra5_feat_bg, scale_factor=8/self.sem_downsample, mode='bilinear')
 
-        # ---- reverse attention branch_4 ----
+        # ---- DSRA3 ----
         crop_4_fg = F.interpolate(ra5_feat_fg, scale_factor=0.25, mode='bilinear') # _,_,H/32,W/32
         crop_4_bg = F.interpolate(ra5_feat_bg, scale_factor=0.25, mode='bilinear') # _,_,H/32,W/32
         
@@ -393,7 +371,7 @@ class PraNet_V2(nn.Module):
         lateral_map_4_bg=F.interpolate(ra4_feat_bg, scale_factor=32/self.sem_downsample, mode='bilinear')
 
 
-        # ---- reverse attention branch_3 ----
+        # ---- DSRA2 ----
         crop_3_fg = F.interpolate(ra4_feat_fg, scale_factor=2, mode='bilinear')
         crop_3_bg = F.interpolate(ra4_feat_bg, scale_factor=2, mode='bilinear')
 
@@ -414,10 +392,8 @@ class PraNet_V2(nn.Module):
         lateral_map_3_fg = F.interpolate(ra3_feat_fg, scale_factor=16/self.sem_downsample, mode='bilinear')  # NOTES: Sup-3 (bs, 1, 22, 22) -> (bs, 1, 352, 352)
         lateral_map_3_bg = F.interpolate(ra3_feat_bg, scale_factor=16/self.sem_downsample, mode='bilinear')
 
-        # print("Saving fixed ra3_feat_fg by ra4_feat_fg and ra4_feat_bg",ra3_feat_fg.size())
-        # self.save_middle_map(lateral_map_3_fg, 'lateral_map_3_fg',batch_data['img_data'].size())
 
-        # ---- reverse attention branch_2 ----
+        # ---- DSRA1 ----
         crop_2_fg = F.interpolate(ra3_feat_fg, scale_factor=2, mode='bilinear')
         crop_2_bg = F.interpolate(ra3_feat_bg, scale_factor=2, mode='bilinear')
 
