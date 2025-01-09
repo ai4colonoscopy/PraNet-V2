@@ -26,7 +26,6 @@ def test_with_eval(eval_config,model):
         res_i = np.zeros((len(test_loader),len(eval_config['metrics'])))
         
         model.eval()
-        # for j in range(test_loader.size):
         for j in range(test_loader.size):
             image, gt, name = test_loader.load_data()
             gt = np.asarray(gt, np.float32)

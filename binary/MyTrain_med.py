@@ -13,28 +13,24 @@ from tqdm import tqdm
 from lib.pranet import PraNet_V2, PVT_PraNet_V2
 from MyTest_med import test_with_eval
 
-# 禁用cudnn优化
 torch.backends.cudnn.enabled = False
-# seed everything
 
 
 def structure_loss(pred, pred_bg, mask_fg, mask_bg):
-    # 权重（平均池化得到一个平滑的版本，算与原始掩码的绝对差值，再乘以 5【放大边界差异的惩罚】，最后加 1 以确保权重最小值为 1）
-    weit = 1 + 5*torch.abs(F.avg_pool2d(mask_fg, kernel_size=31, stride=1, padding=15) - mask_fg) # 加 1 以确保权重最小值为 1
+    # Weight (average pooling to get a smoothed version, calculate the absolute difference with the original mask, multiply by 5 to amplify the penalty for boundary differences, and finally add 1 to ensure the minimum weight is 1)
+    weit = 1 + 5*torch.abs(F.avg_pool2d(mask_fg, kernel_size=31, stride=1, padding=15) - mask_fg) # Add 1 to ensure the minimum weight is 1
 
-    # 加权二元交叉熵损失（前景）
-    wbce = F.binary_cross_entropy_with_logits(pred, mask_fg, reduction='none') # 改为reduction='none'
+    # Weighted binary cross-entropy loss (foreground)
+    wbce = F.binary_cross_entropy_with_logits(pred, mask_fg, reduction='none')
     wbce = (weit*wbce).sum(dim=(2, 3)) / weit.sum(dim=(2, 3)) # 归一化
     
-    # 加权二元交叉熵损失（背景）
-    wbce2 = F.binary_cross_entropy_with_logits(pred_bg, mask_bg, reduction='none') # 改为reduction='none'
+    # Weighted binary cross-entropy loss (background)
+    wbce2 = F.binary_cross_entropy_with_logits(pred_bg, mask_bg, reduction='none')
     wbce2 = (weit*wbce2).sum(dim=(2, 3)) / weit.sum(dim=(2, 3)) # 归一化
 
     pred = torch.sigmoid(pred)
     
-    # smooth = 1e-5
-    
-    # 加权交并比损失
+    # Weighted intersection over union loss
     inter = ((pred * mask_fg)*weit).sum(dim=(2, 3))
     union = ((pred + mask_fg)*weit).sum(dim=(2, 3))
     wiou = 1 - (inter + 1)/(union - inter+1)
@@ -73,8 +69,8 @@ def train(train_loader, model, optimizer, epoch, opt):
             # ---- rescale ----
             trainsize = int(round(opt.trainsize*rate/32)*32)
             if rate != 1:
-                images = F.interpolate(images, size=(trainsize, trainsize), mode='bilinear', align_corners=True) # 改为interpolate
-                gts = F.interpolate(gts, size=(trainsize, trainsize), mode='bilinear', align_corners=True) # 改为interpolate
+                images = F.interpolate(images, size=(trainsize, trainsize), mode='bilinear', align_corners=True)
+                gts = F.interpolate(gts, size=(trainsize, trainsize), mode='bilinear', align_corners=True)
             bg_mask = 1-gts
             # ---- forward ----
             lateral_map_2_fg,lateral_map_3_fg,lateral_map_4_fg,lateral_map_5_fg,lateral_map_2_bg,lateral_map_3_bg,lateral_map_4_bg,lateral_map_5_bg = model(images)
