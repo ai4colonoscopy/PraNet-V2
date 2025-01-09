@@ -51,11 +51,7 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
     parser.add_argument('--testsize', type=int, default=352, help='testing size')
-    # parser.add_argument('--pth_path', type=str, default='./snapshots/PraNet-V2/RES-V2.pth')
-    # parser.add_argument('--pth_path', type=str, default='./snapshots/PVT-PraNet-V2/PVT-V2.pth')
-    parser.add_argument('--pth_path', type=str, default='./snapshots/PVT-PraNet-V2/PVT-V2-ep20.pth') # TODO: Replace with the path to the model you want to test
-    parser.add_argument('--model_type', type=str, default='PraNet-V2') # TODO: Choose which model to train【PraNet-V1, PVT-PraNet-V1, PraNet-V2 or PVT-PraNet-V2】
-     opt = parser.parse_args()
+    opt = parser.parse_args()
     
     # ---- build models ----
     model_names = ['PraNet-V1', 'PVT-PraNet-V1', 'PraNet-V2', 'PVT-PraNet-V2']
