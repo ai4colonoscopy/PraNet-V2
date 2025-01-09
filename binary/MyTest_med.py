@@ -55,57 +55,64 @@ if __name__ == "__main__":
     # parser.add_argument('--pth_path', type=str, default='./snapshots/PVT-PraNet-V2/PVT-V2.pth')
     parser.add_argument('--pth_path', type=str, default='./snapshots/PVT-PraNet-V2/PVT-V2-ep20.pth') # TODO: Replace with the path to the model you want to test
     parser.add_argument('--model_type', type=str, default='PraNet-V2') # TODO: Choose which model to train【PraNet-V1, PVT-PraNet-V1, PraNet-V2 or PVT-PraNet-V2】
-    opt = parser.parse_args()
+     opt = parser.parse_args()
     
-     # ---- build models ----
-    if opt.model_type == 'PraNet-V2':
-        model = PraNet_V2(num_class=1)
-        model.load_state_dict(torch.load(opt.pth_path),strict=False)
-    elif opt.model_type == 'PVT-PraNet-V2':
-        model = PVT_PraNet_V2(num_class=1)
-        model.load_state_dict(torch.load(opt.pth_path),strict=False)
-    elif opt.model_type == 'PraNet-V1':
-        model = PraNet()
-        model.load_state_dict(torch.load(opt.pth_path))
-    elif opt.model_type == 'PVT-PraNet-V1':
-        model = PVT_PraNet()
-        model.load_state_dict(torch.load(opt.pth_path))
-    else:
-        raise ValueError('Model Not Found, choose from [PraNet-V1, PVT-PraNet-V1, PraNet-V2, PVT-PraNet-V2]')
-    model.cuda()
-    model.eval()
+    # ---- build models ----
+    model_names = ['PraNet-V1', 'PVT-PraNet-V1', 'PraNet-V2', 'PVT-PraNet-V2']
+    pth_path_list = ['./snapshots/PraNet-V1/RES-V1.pth', './snapshots/PVT-PraNet-V1/PVT-V1.pth', './snapshots/PraNet-V2/RES-V2.pth', './snapshots/PVT-PraNet-V2/PVT-V2.pth']
+    model1 = PraNet()
+    model1.load_state_dict(torch.load(pth_path_list[0]))
+    model1.cuda()
+    model1.eval()
+    
+    model2 = PVT_PraNet()
+    model2.load_state_dict(torch.load(pth_path_list[1]))
+    model2.cuda()
+    model2.eval()
+    
+    model3 = PraNet_V2(num_class=1)
+    model3.load_state_dict(torch.load(pth_path_list[2]),strict=False)
+    model3.cuda()
+    model3.eval()
+    
+    model4 = PVT_PraNet_V2(num_class=1)
+    model4.load_state_dict(torch.load(pth_path_list[3]),strict=False)
+    model4.cuda()
+    model4.eval()
+    model_list=[model1,model2,model3,model4]
     print("Model Loaded Successfully")
     
     # ---- test ----
-    for _data_name in tqdm(['CVC-300', 'CVC-ClinicDB', 'Kvasir', 'ETIS-LaribPolypDB'],desc="Testing in Datasets:"):
-        data_path = './data/TestDataset/{}/'.format(_data_name)
-        save_path = './results/{}/{}/'.format(opt.model_type,_data_name)
-        os.makedirs(save_path, exist_ok=True)
-        
-        image_root = '{}/images/'.format(data_path)
-        gt_root = '{}/masks/'.format(data_path)
-        test_loader = test_dataset(image_root, gt_root, opt.testsize)
+    for model_name, model in zip(model_names, model_list):
+        for _data_name in tqdm(['CVC-300', 'CVC-ClinicDB', 'Kvasir', 'ETIS-LaribPolypDB'],desc=f"[{model_name}:]Testing in Datasets"):
+            data_path = './data/TestDataset/{}/'.format(_data_name)
+            save_path = './results/{}/{}/'.format(model_name,_data_name)
+            os.makedirs(save_path, exist_ok=True)
+            
+            image_root = '{}/images/'.format(data_path)
+            gt_root = '{}/masks/'.format(data_path)
+            test_loader = test_dataset(image_root, gt_root, opt.testsize)
 
-        for i in range(test_loader.size):
-            image, gt, name = test_loader.load_data()
-            gt = np.asarray(gt, np.float32)
-            gt /= (gt.max() + 1e-8)
-            image = image.cuda()
+            for i in range(test_loader.size):
+                image, gt, name = test_loader.load_data()
+                gt = np.asarray(gt, np.float32)
+                gt /= (gt.max() + 1e-8)
+                image = image.cuda()
 
-            if opt.model_type in ['PraNet-V1', 'PVT-PraNet-V1']:
-                res5, res4, res3, res2 = model(image)
-                res = res2
-                res = F.interpolate(res, size=gt.shape, mode='bilinear', align_corners=False)
-                res = res.sigmoid().data.cpu().numpy().squeeze()
-                res = (res - res.min()) / (res.max() - res.min() + 1e-8)
-            else:
-                res2, res3, res4, res5, res2_bg, res3_bg, res4_bg, res5_bg = model(image)
-                res = res2 + res3 + res4 + res5
-                res = F.interpolate(res, size=gt.shape, mode='bilinear', align_corners=False)
-                res = res.sigmoid().data.cpu().numpy().squeeze()
-                res = (res - res.min()) / (res.max() - res.min() + 1e-8)
+                if isinstance(model,PraNet) or isinstance(model,PVT_PraNet):
+                    res5, res4, res3, res2 = model(image)
+                    res = res2
+                    res = F.interpolate(res, size=gt.shape, mode='bilinear', align_corners=False)
+                    res = res.sigmoid().data.cpu().numpy().squeeze()
+                    res = (res - res.min()) / (res.max() - res.min() + 1e-8)
+                else:
+                    res2, res3, res4, res5, res2_bg, res3_bg, res4_bg, res5_bg = model(image)
+                    res = res2 + res3 + res4 + res5
+                    res = F.interpolate(res, size=gt.shape, mode='bilinear', align_corners=False)
+                    res = res.sigmoid().data.cpu().numpy().squeeze()
+                    res = (res - res.min()) / (res.max() - res.min() + 1e-8)
 
 
-            res_uint8 = (res * 255).astype(np.uint8)
-        
-            imageio.imwrite(save_path + name, res_uint8)
+                res_uint8 = (res * 255).astype(np.uint8)
+            
+                imageio.imwrite(save_path + name, res_uint8)
