@@ -212,37 +212,15 @@ def evaluate(opt):
     return tab
 
 if __name__ == "__main__":
-    eval_config={ # for PraNet-V1
+    ### all in one ###
+    eval_config={
     "gt_root": "data/TestDataset",
-    "pred_root": "results/PraNet", # TODO: Change the path to the folder containing the segmentation results
-    "result_path": "eval_results", # TODO: Change the path to the folder to save the evaluation results
-    "datasets": ['CVC-300', 'CVC-ClinicDB', 'Kvasir', 'ETIS-LaribPolypDB'],
-    "metrics": ['meanDic', 'meanIoU', 'wFm', 'Sm', 'meanEm', 'mae', 'maxEm', 'maxDic', 'maxIoU', 'meanSen', 'maxSen', 'meanSpe', 'maxSpe'],
-}
-    
-    eval_config={ # for PVT-PraNet-V1
-    "gt_root": "data/TestDataset",
-    "pred_root": "results/PVT_PraNet-V1",
-    "result_path": "eval_results2",
+    "pred_root": "...",
+    "result_path": "eval_results",
     "datasets": ['CVC-300', 'CVC-ClinicDB', 'Kvasir', 'ETIS-LaribPolypDB'],
     "metrics": ['meanDic', 'meanIoU', 'wFm', 'Sm', 'meanEm', 'mae'],
-}
-    
-    eval_config={ # for PraNet-V2
-    "gt_root": "data/TestDataset",
-    "pred_root": "results/PraNet-V2",
-    "result_path": "eval_results3",
-    "datasets": ['CVC-300', 'CVC-ClinicDB', 'Kvasir', 'ETIS-LaribPolypDB'],
-    "metrics": ['meanDic', 'meanIoU', 'wFm', 'Sm', 'meanEm', 'mae'],
-}
-    
-    eval_config={ # for PVT-PraNet-V2
-    "gt_root": "data/TestDataset",
-    "pred_root": "results/PVT-PraNet-V2",
-    "result_path": "eval_results4",
-    "datasets": ['CVC-300', 'CVC-ClinicDB', 'Kvasir', 'ETIS-LaribPolypDB'],
-    "metrics": ['meanDic', 'meanIoU', 'wFm', 'Sm', 'meanEm', 'mae'],
-}
-    
-    evaluate(eval_config)
-
+    }
+    pred_roots = ['results/PraNet-V1', 'results/PVT-PraNet-V1', 'results/PraNet-V2', 'results/PVT-PraNet-V2']
+    for pred_root in pred_roots:
+        eval_config["pred_root"] = pred_root
+        evaluate(eval_config)
