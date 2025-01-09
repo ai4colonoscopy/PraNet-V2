@@ -39,14 +39,7 @@ def structure_loss(pred, pred_bg, mask_fg, mask_bg):
     union = ((pred + mask_fg)*weit).sum(dim=(2, 3))
     wiou = 1 - (inter + 1)/(union - inter+1)
     
-    # 加权dice损失
-    # p_sum = (pred*weit).sum(dim=(2, 3))
-    # g_sum = (mask_fg*weit).sum(dim=(2, 3))
-    # wdice = 1 - (2*inter + smooth)/(g_sum + p_sum + smooth)
-    
     return (wbce + wiou + 0.8*wbce2).mean()
-    # return (wbce + 0.5*wbce2 + wdice).mean()
-
 
 def show_tensor(tensor_list,path=None):
     for i, tensor in enumerate(tensor_list):
@@ -117,7 +110,7 @@ def train(train_loader, model, optimizer, epoch, opt):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--epoch', type=int,
-                        default=10, help='epoch number')
+                        default=30, help='epoch number')
     parser.add_argument('--lr', type=float,
                         default=1e-4, help='learning rate')
     parser.add_argument('--batchsize', type=int,
@@ -154,18 +147,12 @@ if __name__ == '__main__':
         model = PVT_PraNet_V2(num_class=1).cuda()
     else:
         raise ValueError('Model Not Found, choose from [PraNet-V2, PVT-PraNet-V2]')
-    
 
-    # ---- flops and params ----
-    # from utils.utils import CalParams
-    # x = torch.randn(1, 3, 352, 352).cuda()
-    # CalParams(lib, x)
 
     params = model.parameters()
     optimizer = torch.optim.Adam(params, opt.lr)
 
 
-    
     eval_config={
     "datasets": ['CVC-300', 'CVC-ClinicDB'],
     "metrics": ['meanDic', 'meanIoU', 'wFm', 'Sm', 'meanEm', 'mae'],
@@ -175,7 +162,6 @@ if __name__ == '__main__':
     best_eval_res = [[0, 0, 0], [0, 0, 0]]
     for epoch in tqdm(range(1, opt.epoch), desc="Training Epochs"):
         adjust_lr(optimizer, opt.lr, epoch, opt.decay_rate, opt.decay_epoch)
-        # tqdm.write(f"Epoch {epoch}/{opt.epoch} - Training")
         train(train_loader, model, optimizer, epoch, opt)
         
         print('Evaluating the model...')
