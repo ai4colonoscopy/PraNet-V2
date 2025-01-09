@@ -55,27 +55,33 @@ if __name__ == "__main__":
     # parser.add_argument('--pth_path', type=str, default='./snapshots/PVT-PraNet-V2/PVT-V2.pth')
     parser.add_argument('--pth_path', type=str, default='./snapshots/PVT-PraNet-V2/PVT-V2-ep20.pth') # TODO: Replace with the path to the model you want to test
     parser.add_argument('--model_type', type=str, default='PraNet-V2') # TODO: Choose which model to train【PraNet-V1, PVT-PraNet-V1, PraNet-V2 or PVT-PraNet-V2】
-
-    for _data_name in tqdm(['CVC-300', 'CVC-ClinicDB', 'Kvasir', 'ETIS-LaribPolypDB'],desc="Testing in Datasets:"):
-
-        data_path = './data/TestDataset/{}/'.format(_data_name)
-        save_path = './results/PVT-PraNet-V2-ep20/{}/'.format(_data_name) # TODO: Change the name of the folder to save the segmentation results
-        opt = parser.parse_args()
-        # ---- build models ----
-        if opt.model_type == 'PraNet-V2':
-            model = PraNet_V2(num_class=1).cuda()
-        elif opt.model_type == 'PVT-PraNet-V2':
-            model = PVT_PraNet_V2(num_class=1).cuda()
-        elif opt.model_type == 'PraNet-V1':
-            model = PraNet().cuda()
-        elif opt.model_type == 'PVT-PraNet-V1':
-            model = PVT_PraNet().cuda()
-        else:
-            raise ValueError('Model Not Found, choose from [PraNet-V1, PVT-PraNet-V1, PraNet-V2, PVT-PraNet-V2]')
+    opt = parser.parse_args()
+    
+     # ---- build models ----
+    if opt.model_type == 'PraNet-V2':
+        model = PraNet_V2(num_class=1)
+        model.load_state_dict(torch.load(opt.pth_path),strict=False)
+    elif opt.model_type == 'PVT-PraNet-V2':
+        model = PVT_PraNet_V2(num_class=1)
+        model.load_state_dict(torch.load(opt.pth_path),strict=False)
+    elif opt.model_type == 'PraNet-V1':
+        model = PraNet()
         model.load_state_dict(torch.load(opt.pth_path))
-        model.eval()
-
+    elif opt.model_type == 'PVT-PraNet-V1':
+        model = PVT_PraNet()
+        model.load_state_dict(torch.load(opt.pth_path))
+    else:
+        raise ValueError('Model Not Found, choose from [PraNet-V1, PVT-PraNet-V1, PraNet-V2, PVT-PraNet-V2]')
+    model.cuda()
+    model.eval()
+    print("Model Loaded Successfully")
+    
+    # ---- test ----
+    for _data_name in tqdm(['CVC-300', 'CVC-ClinicDB', 'Kvasir', 'ETIS-LaribPolypDB'],desc="Testing in Datasets:"):
+        data_path = './data/TestDataset/{}/'.format(_data_name)
+        save_path = './results/{}/{}/'.format(opt.model_type,_data_name)
         os.makedirs(save_path, exist_ok=True)
+        
         image_root = '{}/images/'.format(data_path)
         gt_root = '{}/masks/'.format(data_path)
         test_loader = test_dataset(image_root, gt_root, opt.testsize)
@@ -87,7 +93,7 @@ if __name__ == "__main__":
             image = image.cuda()
 
             if opt.model_type in ['PraNet-V1', 'PVT-PraNet-V1']:
-                res2, res3, res4, res5 = model(image)
+                res5, res4, res3, res2 = model(image)
                 res = res2
                 res = F.interpolate(res, size=gt.shape, mode='bilinear', align_corners=False)
                 res = res.sigmoid().data.cpu().numpy().squeeze()

@@ -55,7 +55,7 @@ parser.add_argument('--test_save_dir', type=str, default='predictions', help='sa
 parser.add_argument('--deterministic', type=int,  default=1, help='whether use deterministic training')
 parser.add_argument('--base_lr', type=float,  default=0.0001, help='segmentation network learning rate')
 parser.add_argument('--seed', type=int, default=2222, help='random seed')
-parser.add_argument('--dual', default=False, action='store_true', help='dual supervision or single supervision')
+parser.add_argument('--dual', default=True, action='store_true', help='dual supervision or single supervision')
 
 
 # network related parameters
