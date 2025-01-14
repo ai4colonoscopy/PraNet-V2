@@ -4,7 +4,7 @@
 
 ## Usage
 
-🚀 **First **, Please refer to the [official Jittor installation guide](https://cg.cs.tsinghua.edu.cn/jittor/download/) to set up your Jittor environment. 🛠️
+🚀 **First**, Please refer to the [official Jittor installation guide](https://cg.cs.tsinghua.edu.cn/jittor/download/) to set up your Jittor environment. 🛠️
 
 ✨ For **macOS** and **Windows**, we recommend using Docker 🐳 for a smooth setup. If you’re on **Linux**, simply install Jittor with pip.
 
