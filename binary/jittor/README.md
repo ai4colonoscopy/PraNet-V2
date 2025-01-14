@@ -10,7 +10,7 @@
 
 We have deployed four models of the PraNet series (PraNet-V1,PVT-PraNet-V1, PlaNet-V2, PVT-PraNet-V2) on the Jittor framework and released the [inference code](https://github.com/ai4colonoscopy/PraNet-V2/blob/main/binary/jittor/MyTest.py)! 
 
-✨ The relevant paths have been configured, and you can easily run the commands below to try inference and evaluation. 🎉👾
+✨ Relevant paths have been configured, and you can easily run the commands below to try inference and evaluation. 🎉👾
 
 ```bash
 cd ./binary/jittor
