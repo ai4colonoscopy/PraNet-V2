@@ -40,9 +40,12 @@ Accurate medical image segmentation is essential for effective diagnosis and tre
     <img src="./assets/Quantitative1.png" width="100%"/>
 </div>
 
-<img src="./assets/Quantitative2.png" alt="Quantitative2" style="zoom: 33%;"/>
 
 <img src="./assets/Quantitative3.png" alt="Quantitative3" />
+
+<div align=center>
+<img src="./assets/Quantitative2.png" alt="Quantitative2" width="50%"/>
+</div>
 
 
 
