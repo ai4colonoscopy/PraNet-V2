@@ -156,12 +156,16 @@ After that, follow the steps in the [Evaluation](#evaluation) section to obtain 
 
 ### Multi-class segmentation models
 
-For the multi-class segmentation models, place our trained models in their respective `model_pth` folders. For example: `./multi-class/EMCAD/model_pth/ACDC/EMCAD_ACDC.pth`
+For the multi-class segmentation models, place our trained models in their respective `model_pth` folders. For example: 
+
+- [EMCAD_Synapse.pth](https://drive.google.com/file/d/1GT2A68xlCgbBSO0WcZZfNCLVu0iC76vy/view?usp=sharing) ---> `./multi-class/EMCAD/model_pth/Synapse/EMCAD_Synapse.pth`
+- [MIST_ACDC.pth](https://drive.google.com/file/d/1thVeRJYvO4luFtgEO2WOebP9we2pAGlq/view?usp=sharing) ---> `./multi-class/MIST/model_pth/ACDC/MIST_ACDC.pth`
+- [MIST_Synapse.pth](https://drive.google.com/file/d/12SUMF6JdNoI27RcxZ-ufhxQ028CyOx0B/view?usp=sharing) ---> `./multi-class/MIST/model_pth/Synapse/MIST_Synapse.pth`
 
 Next, update the *dataset path* and *model path* in the test script based on the **TODO markers**. We recommend changing the default values directly to avoid overly long command-line arguments. For example:
 
 ```python
-parser.add_argument('--volume_path', type=str,default='./data/synapse/test_vol_h5_new', help='root dir for validation volume data') # TODO: replace with actual path
+parser.add_argument('--volume_path', type=str, default='./data/synapse/test_vol_h5_new', help='root dir for validation volume data') # TODO: replace with actual path
 ```
 
 Finally, run the corresponding inference scripts to get test results (📝Logs will be saved in `./test_log`) :
