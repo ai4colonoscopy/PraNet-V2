@@ -124,7 +124,10 @@ multi-class
 
 📦 Before running the inference script, make sure to grab the [pre-trained model weights](https://drive.google.com/drive/folders/1o4UHzI48wwEtpz-J91dnIRhtYy67lFCO?usp=drive_link) 🔗. 
 
+
 ### PraNet-V2 series
+
+We provide [RES-V1.pth](https://drive.google.com/file/d/1VySNrg01d_ydvIKWuAYRPUDMFU1nbnKl/view?usp=sharing) for PraNet-V1, [RES-V2.pth](https://drive.google.com/file/d/1MFPcbD4Lt3o4d9RAwsT4wfLT32KtLqmF/view?usp=sharing) for PraNet-V2, [PVT-V1.pth](https://drive.google.com/file/d/1v9c9HGayqsXKpmtIzydMu4h-t9hPwL5y/view?usp=sharing) for PVT-PraNet-V1 and [PVT-V2.pth](https://drive.google.com/file/d/1y5i06UYyESxQfawj9swNhyQcyPX6OD1_/view?usp=sharing) for PVT-PraNet-V2.
 
 We recommend to organize the PraNet series models under `./binary/snapshots` following the structure below:
 
