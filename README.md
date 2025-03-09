@@ -13,8 +13,6 @@
 
 
 
-
-
 # 🔥News🔥
 - **`Jan 13, 2025`:**  🎉 We are excited to introduce the [inference code](https://github.com/ai4colonoscopy/PraNet-V2/blob/main/binary/jittor/MyTest.py) for the PraNet series models (PraNet-V1, PVT-PraNet-V1, PraNet-V2, PVT-PraNet-V2) running on the **Jittor** framework! [Performance evaluation](https://github.com/ai4colonoscopy/PraNet-V2/tree/main/binary/jittor#performance-comparison) and [inference speed tests](https://github.com/ai4colonoscopy/PraNet-V2/tree/main/binary/jittor#speedup) have shown that Jittor significantly boosts inference speed compared to the PyTorch framework. Give it a try and feel the difference! ✨😊
 
@@ -34,21 +32,23 @@ Accurate medical image segmentation is essential for effective diagnosis and tre
 
 ### Framework Overview
 
-<img src="./readme_img/pipline.jpg" alt="pipline" style="zoom: 33%;" />
+<img src="./assets/pipline.png" alt="pipline" style="zoom: 33%;" />
 
 ### Qualitative Results
 
 <div align=center>
-    <img src="./readme_img/Quantitative1.jpg" width="48%"/><img src="./readme_img/Quantitative2.jpg" width="49%"/>
+    <img src="./assets/Quantitative1.png" width="100%"/>
 </div>
 
-<img src="./readme_img/Quantitative3.jpg" alt="Quantitative3" />
+<img src="./assets/Quantitative2.png" alt="Quantitative2" style="zoom: 33%;"/>
+
+<img src="./assets/Quantitative3.png" alt="Quantitative3" />
+
+
 
 ### Quantitative Results
 
-<img src="./readme_img/Qualitative1.jpg" alt="Qualitative1" style="zoom: 33%;" />
-
-<img src="./readme_img/Qualitative2.jpg" alt="Qualitative2" style="zoom: 33%;" />
+<img src="./assets/Qualitative.png" alt="Qualitative1" style="zoom: 33%;" />
 
 
 
@@ -75,15 +75,15 @@ cd PraNet-V2
 ### Weights Preparation
 **We also require the pre-trained weights for PVTV2B2, Res2Net, and VIT**,  Please [click here to download](https://drive.google.com/drive/folders/17VuWBy6CnEXF7kASydQGsZgYFjiwhez2?usp=drive_link) them 🎯. Then, make sure to place the files in the following locations:
 
-1. 🗂️ `pvt_v2_b2.pth`:
+1. 🗂️ `pvt_v2_b2.pth` ([single file download](https://drive.google.com/file/d/1FOv-3T91gJoB153XDUTAg4E0CGPHVQS4/view?usp=sharing)):
    - `./binary/models`
    - `./multi-class/EMCAD/pretrained_pth/pvt`
 
-2. 🗂️ `maxvit_rmlp_small_rw_224_sw-6ef0ae4f.pth` and `maxxvit_rmlp_small_rw_256_sw-37e217ff.pth`:
+2. 🗂️ `maxvit_rmlp_small_rw_224_sw-6ef0ae4f.pth`  ([single file download](https://drive.google.com/file/d/11gd2_sRmAnoRvxUrQ1nrqVtxHlRpUx6O/view?usp=sharing)) and `maxxvit_rmlp_small_rw_256_sw-37e217ff.pth` ([single file download](https://drive.google.com/file/d/1WD6wUc8qGBhWbRz92_FFW-KiHxD3n6s9/view?usp=sharing)):
    - `./multi-class/MERIT/maxvit`
-   - `./multi-class/MIST-main/maxvit`
+   - `./multi-class/MIST/maxvit`
 
-3. 🗂️ `res2net50_v1b_26w_4s-3cf99910.pth`:
+3. 🗂️ `res2net50_v1b_26w_4s-3cf99910.pth` ([single file download](https://drive.google.com/file/d/1DzQfXikcSObsL98RmFNHR_7Wuy1vED8z/view?usp=sharing)):
    - `./binary/models`
 
 📋 The final file organization should look like this:
@@ -101,7 +101,7 @@ multi-class
 │   │   ├── pvt
 │   │   │   ├── pvt_v2_b2.pth
 │   ├── ...
-├── MIST-main
+├── MIST
 │   ├── pretrained_pth
 │   │   ├── maxvit
 │   │   │   ├── maxvit_rmlp_small_rw_224_sw-6ef0ae4f.pth
@@ -164,7 +164,7 @@ Finally, run the corresponding inference scripts to get test results (📝Logs w
 export CUDA_VISIABLE_DEVICES=0 # using single GPU
 
 # MIST 
-cd ./multi-class/MIST-main
+cd ./multi-class/MIST
 python -W ignore Synapse_test.py --dual
 python -W ignore test_ACDC.py --dual
 
@@ -223,7 +223,7 @@ cd ./multi-class/MERIT
 python -W ignore train_ACDC.py --dual
 
 ### train MIST (w/DSTA)###
-cd ./multi-class/MIST-main
+cd ./multi-class/MIST
 # On ACDC dataset
 python -W ignore ACDC_train_test.py --dual
 # On Synapse dataset
@@ -244,4 +244,14 @@ A huge thanks to the following **excellent works**: [PraNet](https://github.com/
 
 
 # Bibtex 
+
+```
+@article{hu2025pranet2,
+  title={PraNet-V2: Dual-Supervised Reverse Attention for Medical Image Segmentation},
+  author={Hu, Bo-Cheng and Ji, Ge-Peng and Shao, Dian and Fan, Deng-Ping},
+  journal   = {arXiv preprint arXiv:XXXX.XXXXX},
+  year={2025},
+  url       = {https://arxiv.org/abs/XXXX.XXXXX}
+}
+```
 
