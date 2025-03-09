@@ -1,10 +1,10 @@
 <h1 align="center">PraNet-V2: Dual-Supervised Reverse Attention for Medical Image Segmentation</h1>
 
 <div align='center'>
-    <strong>Bo-Cheng Hu</strong></a><sup>1</sup>,&thinsp;
+    <a href='https://scholar.google.com/citations?user=VBb03aoAAAAJ' target='_blank'><strong>Bo-Cheng Hu</strong></a><sup> 1</sup>,&thinsp;
     <a href='https://scholar.google.com/citations?user=oaxKYKUAAAAJ' target='_blank'><strong>Ge-Peng Ji</strong></a><sup> 2</sup>,&thinsp;
     <a href='https://scholar.google.com/citations?user=amxDSLoAAAAJ' target='_blank'><strong>Dian Shao</strong></a><sup> 3</sup>,&thinsp;
-    <a href='https://scholar.google.com/citations?user=kakwJ5QAAAAJ' target='_blank'><strong>Deng-Ping Fan</strong></a><sup> 1</sup>,&thinsp;
+    <a href='https://scholar.google.com/citations?user=kakwJ5QAAAAJ' target='_blank'><strong>Deng-Ping Fan</strong></a><sup> 1</sup>&thinsp;
 </div>
 
 <div align='center'>
@@ -230,19 +230,19 @@ Just like the [interface](#multi-class-segmentation-models) section, you’ll ne
 ```bash
 export CUDA_VISIABLE_DEVICES=0 # using single GPU 
 
-### train MERIT (w/DSTA)###
+### train MERIT (w/ DSTA)###
 cd ./multi-class/MERIT
 # On ACDC dataset
 python -W ignore train_ACDC.py --dual
 
-### train MIST (w/DSTA)###
+### train MIST (w/ DSTA)###
 cd ./multi-class/MIST
 # On ACDC dataset
 python -W ignore ACDC_train_test.py --dual
 # On Synapse dataset
 python -W ignore Synapse_train.py --dual
 
-# train EMCAD (w/DSTA)###
+# train EMCAD (w/ DSTA)###
 cd ./multi-class/EMCAD
 # On Synapse dataset
 python -W ignore train_synapse.py --dual
