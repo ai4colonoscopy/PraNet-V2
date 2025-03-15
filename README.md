@@ -11,6 +11,7 @@
     <sup>1 </sup>Nankai University&ensp;  <sup>2 </sup>Australian National University&ensp;  <sup>3 </sup>Northwestern Polytechnical University&ensp; 
 </div>
 
+[Watch video](https://github.com/user-attachments/assets/c33a975a-e531-4974-b938-80bafa3b1c6b)
 
 
 # 🔥News🔥
