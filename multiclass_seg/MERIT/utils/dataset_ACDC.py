@@ -147,10 +147,6 @@ def visualize_data(image, label, slice_index,save_dir):
     print(f"Saved slice {slice_index} to {save_path}")
 
 if __name__ == '__main__':
-    # ACDCdataset(base_dir='/defaultShare/archive/zhuzixuan/cascade_dataset/ACDC/', list_dir='/defaultShare/archive/zhuzixuan/cascade_dataset/ACDC/lists_ACDC', split='train')
-    # data_path='/defaultShare/archive/zhuzixuan/cascade_dataset/ACDC/test/case_092_volume_ES.npz'
-    # data = np.load(data_path)
-    # image, label = data['img'], data['label']
 
 
     # 加载数据

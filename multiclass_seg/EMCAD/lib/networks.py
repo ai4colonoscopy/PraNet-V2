@@ -68,7 +68,6 @@ class EMCADNet(nn.Module):
             channels=[512, 320, 128, 64]
             
         if pretrain==True and 'pvt_v2' in encoder:
-            # path='/defaultShare/archive/zhuzixuan/hubocheng/EMCAD/pretrained_pth/pvt/pvt_v2_b2.pth'
             save_model = torch.load(path)
             model_dict = self.backbone.state_dict()
             state_dict = {k: v for k, v in save_model.items() if k in model_dict.keys()}
