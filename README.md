@@ -14,13 +14,13 @@
 
 
 # 🔥News🔥
-- **`Jan 13, 2025`:**  🎉 We are excited to introduce the [inference code](https://github.com/ai4colonoscopy/PraNet-V2/blob/main/binary/jittor/MyTest.py) for the PraNet series models (PraNet-V1, PVT-PraNet-V1, PraNet-V2, PVT-PraNet-V2) running on the **Jittor** framework! [Performance evaluation](https://github.com/ai4colonoscopy/PraNet-V2/tree/main/binary/jittor#performance-comparison) and [inference speed tests](https://github.com/ai4colonoscopy/PraNet-V2/tree/main/binary/jittor#speedup) have shown that Jittor significantly boosts inference speed compared to the PyTorch framework. Give it a try and feel the difference! ✨😊
+- **`Jan 13, 2025`:**  🎉 We are excited to introduce the [inference code](https://github.com/ai4colonoscopy/PraNet-V2/blob/main/binary_seg/jittor/MyTest.py) for the PraNet series models (PraNet-V1, PVT-PraNet-V1, PraNet-V2, PVT-PraNet-V2) running on the **Jittor** framework! [Performance evaluation](https://github.com/ai4colonoscopy/PraNet-V2/tree/main/binary_seg/jittor#performance-comparison) and [inference speed tests](https://github.com/ai4colonoscopy/PraNet-V2/tree/main/binary_seg/jittor#speedup) have shown that Jittor significantly boosts inference speed compared to the PyTorch framework. Give it a try and feel the difference! ✨😊
 
 - **`Jan 1, 2025`:** 🚀 Released training/testing code! **PraNet-V2 now supports both**
   
-  🔹 [**Binary Segmentation**](binary/README.md) (e.g., polyp segmentation) 🩺
+  🔹 [**Binary Segmentation**](binary_seg/README.md) (e.g., polyp segmentation) 🩺
   
-  🔹 [**Multi-Class Segmentation**](multi-class/README.md) (e.g., ACDC, Synapse) 🌈
+  🔹 [**Multi-Class Segmentation**](multiclass_seg/README.md) (e.g., multi-organ/tissue segmentation) 🌈
 
   Explore the training and testing details in their respective directories **or follow the detailed setup steps below in this README!** 🎉
 
@@ -77,23 +77,23 @@ cd PraNet-V2
 ### Dataset Preparation
 
 1. **Polyp datasets**
-   - To download the training and testing datasets, use this [Google Drive Link](https://drive.google.com/drive/folders/1Hi-ztnzRtWvdGejYHTyOAn6fNBWcWLik?usp=drive_link) and place it in the directory `./binary/data`.
+   - To download the training and testing datasets, use this [Google Drive Link](https://drive.google.com/drive/folders/1Hi-ztnzRtWvdGejYHTyOAn6fNBWcWLik?usp=drive_link) and place it in the directory `./binary_seg/data`.
 2. **ACDC and Synapse datasets**
    - Please refer to the [EMCAD](https://github.com/SLDGroup/EMCAD) for the preprocessed dataset used in this project. Make sure to follow their guidelines for proper usage. 
 
-### Weights Preparation
+### Backbones Preparation
 **We also require the pre-trained weights for PVTV2B2, Res2Net, and VIT**,  Please [click here to download](https://drive.google.com/drive/folders/17VuWBy6CnEXF7kASydQGsZgYFjiwhez2?usp=drive_link) them 🎯. Then, make sure to place the files in the following locations:
 
-1. 🗂️ `pvt_v2_b2.pth` ([single file download](https://drive.google.com/file/d/1FOv-3T91gJoB153XDUTAg4E0CGPHVQS4/view?usp=sharing)):
-   - `./binary/models`
-   - `./multi-class/EMCAD/pretrained_pth/pvt`
+1. 🗂️ `pvt_v2_b2.pth` ([ckpt](https://drive.google.com/file/d/1FOv-3T91gJoB153XDUTAg4E0CGPHVQS4/view?usp=sharing)):
+   - `./binary_seg/models`
+   - `./multiclass_seg/EMCAD/pretrained_pth/pvt`
 
-2. 🗂️ `maxvit_rmlp_small_rw_224_sw-6ef0ae4f.pth`  ([single file download](https://drive.google.com/file/d/11gd2_sRmAnoRvxUrQ1nrqVtxHlRpUx6O/view?usp=sharing)) and `maxxvit_rmlp_small_rw_256_sw-37e217ff.pth` ([single file download](https://drive.google.com/file/d/1WD6wUc8qGBhWbRz92_FFW-KiHxD3n6s9/view?usp=sharing)):
-   - `./multi-class/MERIT/maxvit`
-   - `./multi-class/MIST/maxvit`
+2. 🗂️ `maxvit_rmlp_small_rw_224_sw-6ef0ae4f.pth`  ([ckpt](https://drive.google.com/file/d/11gd2_sRmAnoRvxUrQ1nrqVtxHlRpUx6O/view?usp=sharing)) and `maxxvit_rmlp_small_rw_256_sw-37e217ff.pth` ([ckpt](https://drive.google.com/file/d/1WD6wUc8qGBhWbRz92_FFW-KiHxD3n6s9/view?usp=sharing)):
+   - `./multiclass_seg/MERIT/maxvit`
+   - `./multiclass_seg/MIST/maxvit`
 
-3. 🗂️ `res2net50_v1b_26w_4s-3cf99910.pth` ([single file download](https://drive.google.com/file/d/1DzQfXikcSObsL98RmFNHR_7Wuy1vED8z/view?usp=sharing)):
-   - `./binary/models`
+3. 🗂️ `res2net50_v1b_26w_4s-3cf99910.pth` ([ckpt](https://drive.google.com/file/d/1DzQfXikcSObsL98RmFNHR_7Wuy1vED8z/view?usp=sharing)):
+   - `./binary_seg/models`
 
 📋 The final file organization should look like this:
 
@@ -124,18 +124,16 @@ multi-class
 │   ├── ...
 ```
 
+### Model Weights Preparation
+
+📦 Before running the training or inference scripts, make sure to grab the [pre-trained model weights](https://drive.google.com/drive/folders/1o4UHzI48wwEtpz-J91dnIRhtYy67lFCO?usp=drive_link) 🔗. 
 
 
-# Interface
-
-📦 Before running the inference script, make sure to grab the [pre-trained model weights](https://drive.google.com/drive/folders/1o4UHzI48wwEtpz-J91dnIRhtYy67lFCO?usp=drive_link) 🔗. 
-
-
-### PraNet-V2 series
+#### PraNet-V2 series
 
 We provide [RES-V1.pth](https://drive.google.com/file/d/1VySNrg01d_ydvIKWuAYRPUDMFU1nbnKl/view?usp=sharing) for PraNet-V1, [RES-V2.pth](https://drive.google.com/file/d/1MFPcbD4Lt3o4d9RAwsT4wfLT32KtLqmF/view?usp=sharing) for PraNet-V2, [PVT-V1.pth](https://drive.google.com/file/d/1v9c9HGayqsXKpmtIzydMu4h-t9hPwL5y/view?usp=sharing) for PVT-PraNet-V1 and [PVT-V2.pth](https://drive.google.com/file/d/1y5i06UYyESxQfawj9swNhyQcyPX6OD1_/view?usp=sharing) for PVT-PraNet-V2.
 
-We recommend to organize the PraNet series models under `./binary/snapshots` following the structure below:
+We recommend to organize the PraNet series models under `./binary_seg/snapshots` following the structure below:
 
 ```
 snapshots
@@ -149,10 +147,63 @@ snapshots
     └── PVT-V2.pth
 ```
 
-Next, don’t forget to fill in the model path and segmentation result save path as guided by the **TODO markers** in `MyTest.py`. Once done, run the following command: 
+#### Multi-class segmentation models
+
+For the multi-class segmentation models, place our trained models in their respective `model_pth` folders. For example: 
+
+- [EMCAD_Synapse.pth](https://drive.google.com/file/d/1GT2A68xlCgbBSO0WcZZfNCLVu0iC76vy/view?usp=sharing) ---> `./multiclass_seg/EMCAD/model_pth/Synapse/EMCAD_Synapse.pth`
+- [MIST_ACDC.pth](https://drive.google.com/file/d/1thVeRJYvO4luFtgEO2WOebP9we2pAGlq/view?usp=sharing) ---> `./multiclass_seg/MIST/model_pth/ACDC/MIST_ACDC.pth`
+- [MIST_Synapse.pth](https://drive.google.com/file/d/12SUMF6JdNoI27RcxZ-ufhxQ028CyOx0B/view?usp=sharing) ---> `./multiclass_seg/MIST/model_pth/Synapse/MIST_Synapse.pth`
+
+
+
+# Training
+
+### PraNet-V2 series
+
+The data path is pre-configured. Follow the **TODO markers** in MyTrain_med.py to set the model save path and select the training model type. (**PraNet-V2** with ResNet50 as the backbone; **PVT-PraNet-V2** with PVTV2B2 as the backbone)
 
 ```bash
-cd ./binary
+cd ./binary_seg
+python -W ignore ./MyTrain_med.py --model_type PraNet-V2 # train PraNet-V2 with resnet50
+python -W ignore ./MyTrain_med.py --model_type PVT-PraNet-V2 # train PVT-PraNet-V2 with PVTV2B2
+```
+
+### Multi-class segmentation models
+
+You’ll also need to provide the dataset paths for your environment by following the **TODO markers** in the training scripts. Once done, run the command:
+
+```bash
+export CUDA_VISIABLE_DEVICES=0 # using single GPU 
+
+### train MERIT (w/ DSTA)###
+cd ./multiclass_seg/MERIT
+# On ACDC dataset
+python -W ignore train_ACDC.py --dual
+
+### train MIST (w/ DSTA)###
+cd ./multiclass_seg/MIST
+# On ACDC dataset
+python -W ignore ACDC_train_test.py --dual
+# On Synapse dataset
+python -W ignore Synapse_train.py --dual
+
+### train EMCAD (w/ DSTA)###
+cd ./multiclass_seg/EMCAD
+# On Synapse dataset
+python -W ignore train_synapse.py --dual
+```
+
+
+
+# Interface
+
+### PraNet-V2 series
+
+Please don’t forget to fill in the model path and segmentation result save path as guided by the **TODO markers** in `./binary_seg/MyTest.py`. Once done, run the following command: 
+
+```bash
+cd ./binary_seg
 python -W ignore ./MyTest_med.py
 ```
 
@@ -161,12 +212,6 @@ The polyp segmentation results will be saved in your predefined result save path
 After that, follow the steps in the [Evaluation](#evaluation) section to obtain all the metrics! 📊 
 
 ### Multi-class segmentation models
-
-For the multi-class segmentation models, place our trained models in their respective `model_pth` folders. For example: 
-
-- [EMCAD_Synapse.pth](https://drive.google.com/file/d/1GT2A68xlCgbBSO0WcZZfNCLVu0iC76vy/view?usp=sharing) ---> `./multi-class/EMCAD/model_pth/Synapse/EMCAD_Synapse.pth`
-- [MIST_ACDC.pth](https://drive.google.com/file/d/1thVeRJYvO4luFtgEO2WOebP9we2pAGlq/view?usp=sharing) ---> `./multi-class/MIST/model_pth/ACDC/MIST_ACDC.pth`
-- [MIST_Synapse.pth](https://drive.google.com/file/d/12SUMF6JdNoI27RcxZ-ufhxQ028CyOx0B/view?usp=sharing) ---> `./multi-class/MIST/model_pth/Synapse/MIST_Synapse.pth`
 
 Next, update the *dataset path* and *model path* in the test script based on the **TODO markers**. We recommend changing the default values directly to avoid overly long command-line arguments. For example:
 
@@ -180,16 +225,18 @@ Finally, run the corresponding inference scripts to get test results (📝Logs w
 export CUDA_VISIABLE_DEVICES=0 # using single GPU
 
 # MIST 
-cd ./multi-class/MIST
+cd ./multiclass_seg/MIST
 python -W ignore Synapse_test.py --dual
 python -W ignore test_ACDC.py --dual
 
 # EMCAD
-cd ./multi-class/EMCAD --dual
+cd ./multiclass_seg/EMCAD --dual
 python -W ignore test_synapse.py --dual
 
 # 【Visualization】 Use the –is_savefig option to save visualization results, e.g., python -W ignore Synapse_test.py --is_savefig.
 ```
+
+
 
 
 
@@ -212,46 +259,9 @@ For the three **multi-class segmentation models**, the evaluation results are al
 
 
 
-# Training
+### Segmentation Results
 
-### PraNet-V2 series
-
-The data path is pre-configured. Follow the **TODO markers** in MyTrain_med.py to set the model save path and select the training model type. (**PraNet-V2** with ResNet50 as the backbone; **PVT-PraNet-V2** with PVTV2B2 as the backbone)
-
-```bash
-cd ./binary
-python -W ignore ./MyTrain_med.py --model_type PraNet-V2 # train PraNet-V2 with resnet50
-python -W ignore ./MyTrain_med.py --model_type PVT-PraNet-V2 # train PVT-PraNet-V2 with PVTV2B2
-```
-
-
-
-### Multi-class segmentation models
-
-Just like the [interface](#multi-class-segmentation-models) section, you’ll need to provide the dataset paths for your environment by following the **TODO markers** in the training scripts. Once done, run the command:
-
-```bash
-export CUDA_VISIABLE_DEVICES=0 # using single GPU 
-
-### train MERIT (w/ DSTA)###
-cd ./multi-class/MERIT
-# On ACDC dataset
-python -W ignore train_ACDC.py --dual
-
-### train MIST (w/ DSTA)###
-cd ./multi-class/MIST
-# On ACDC dataset
-python -W ignore ACDC_train_test.py --dual
-# On Synapse dataset
-python -W ignore Synapse_train.py --dual
-
-# train EMCAD (w/ DSTA)###
-cd ./multi-class/EMCAD
-# On Synapse dataset
-python -W ignore train_synapse.py --dual
-```
-
-
+To facilitate reproducibility and further analysis, we provide our **segmentation predictions** alongside their **ground truth** for both **binary segmentation** and **multi-class segmentation** tasks. 🎯
 
 # Acknowledgement
 
@@ -265,9 +275,8 @@ A huge thanks to the following **excellent works**: [PraNet](https://github.com/
 @article{hu2025pranet2,
   title={PraNet-V2: Dual-Supervised Reverse Attention for Medical Image Segmentation},
   author={Hu, Bo-Cheng and Ji, Ge-Peng and Shao, Dian and Fan, Deng-Ping},
-  journal   = {arXiv preprint arXiv:XXXX.XXXXX},
+  journal={arXiv preprint arXiv:XXXX.XXXXX},
   year={2025},
-  url       = {https://arxiv.org/abs/XXXX.XXXXX}
 }
 ```
 
