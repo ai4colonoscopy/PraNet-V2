@@ -197,7 +197,7 @@ python -W ignore train_synapse.py --dual
 
 
 
-# Interface
+# inference
 
 ### PraNet-V2 series
 
@@ -245,7 +245,7 @@ python -W ignore test_synapse.py --dual
 
 ### PraNet-V2 series
 
-For the **PraNet series models**, follow the **Interface** steps to generate segmentation results, which will be saved in the results folder. Afterward, run the `eval.py` script to generate a performance evaluation table in the `eval_results` folder.
+For the **PraNet series models**, follow the **inference** steps to generate segmentation results, which will be saved in the results folder. Afterward, run the `eval.py` script to generate a performance evaluation table in the `eval_results` folder.
 
 ```
 cd ./binary
@@ -256,13 +256,15 @@ The `eval.py` script provides **four eval_config options** for evaluating the pe
 
 ### Multi-class segmentation models
 
-For the three **multi-class segmentation models**, the evaluation results are already logged in the `test_log` folder during the [interface](#multi-class-segmentation-models) step.
+For the three **multi-class segmentation models**, the evaluation results are already logged in the `test_log` folder during the [inference](#multi-class-segmentation-models-3) step.
 
 
 
 ### Segmentation Results
 
 To facilitate reproducibility and further analysis, we provide our **segmentation predictions** alongside their **ground truth** for both **binary segmentation** and **multi-class segmentation** tasks. 🎯
+
+
 
 # Acknowledgement
 
