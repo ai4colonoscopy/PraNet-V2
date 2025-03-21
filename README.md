@@ -41,7 +41,7 @@ Accurate medical image segmentation is essential for effective diagnosis and tre
 
 <img src="./assets/pipline.png" alt="pipline" style="zoom: 33%;" />
 
-### Qualitative Results
+### Quantitative Results
 
 <div align=center>
     <img src="./assets/Quantitative1.png" width="100%"/>
@@ -56,7 +56,7 @@ Accurate medical image segmentation is essential for effective diagnosis and tre
 
 
 
-### Quantitative Results
+### Qualitative Results
 
 <img src="./assets/Qualitative.png" alt="Qualitative1" style="zoom: 33%;" />
 
