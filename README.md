@@ -15,19 +15,15 @@
 
 
 # 🔥News🔥
-- **`Jan 13, 2025`:**  🎉 We are excited to introduce the [inference code](https://github.com/ai4colonoscopy/PraNet-V2/blob/main/binary_seg/jittor/MyTest.py) for the PraNet series models (PraNet-V1, PVT-PraNet-V1, PraNet-V2, PVT-PraNet-V2) running on the **Jittor** framework! [Performance evaluation](https://github.com/ai4colonoscopy/PraNet-V2/tree/main/binary_seg/jittor#performance-comparison) and [inference speed tests](https://github.com/ai4colonoscopy/PraNet-V2/tree/main/binary_seg/jittor#speedup) have shown that Jittor significantly boosts inference speed compared to the PyTorch framework. Give it a try and feel the difference! ✨😊
+- **`Apr 15, 2025`:**  🎉 We are excited to introduce the [inference code](https://github.com/ai4colonoscopy/PraNet-V2/blob/main/binary_seg/jittor/MyTest.py) for the PraNet series models (PraNet-V1, PVT-PraNet-V1, PraNet-V2, PVT-PraNet-V2) running on the **Jittor** framework! [Performance evaluation](https://github.com/ai4colonoscopy/PraNet-V2/tree/main/binary_seg/jittor#performance-comparison) and [inference speed tests](https://github.com/ai4colonoscopy/PraNet-V2/tree/main/binary_seg/jittor#speedup) have shown that Jittor significantly boosts inference speed compared to the PyTorch framework. Give it a try and feel the difference! ✨😊
 
-- **`Jan 1, 2025`:** 🚀 Released training/testing code! **PraNet-V2 now supports both**
+- **`Apr 15, 2025`:** 🚀 Released training/testing code! **PraNet-V2 now supports both**
   
   🔹 [**Binary Segmentation**](binary_seg/README.md) (e.g., polyp segmentation) 🩺
   
   🔹 [**Multi-Class Segmentation**](multiclass_seg/README.md) (e.g., multi-organ/tissue segmentation) 🌈
 
   Explore the training and testing details in their respective directories **or follow the detailed setup steps below in this README!** 🎉
-
-- **`Dec 31, 2024:`**  Upload pre-trained weights.
-
-- **`Dec 18, 2024:`**  Create repository.
 
 # Overview
 
