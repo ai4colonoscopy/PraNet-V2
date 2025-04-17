@@ -10,7 +10,6 @@
 <div align='center'>
     <sup>1 </sup>Nankai University&ensp;  <sup>2 </sup>Australian National University&ensp;  <sup>3 </sup>Northwestern Polytechnical University&ensp; 
 </div>
-
 [Watch video](https://github.com/user-attachments/assets/c33a975a-e531-4974-b938-80bafa3b1c6b)
 
 
@@ -274,7 +273,7 @@ A huge thanks to the following **excellent works**: [PraNet](https://github.com/
 @article{hu2025pranet2,
   title={PraNet-V2: Dual-Supervised Reverse Attention for Medical Image Segmentation},
   author={Hu, Bo-Cheng and Ji, Ge-Peng and Shao, Dian and Fan, Deng-Ping},
-  journal={arXiv preprint arXiv:XXXX.XXXXX},
+  journal={arXiv preprint arXiv:2504.10986},
   year={2025},
 }
 ```

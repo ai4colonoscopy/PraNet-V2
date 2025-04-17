@@ -51,9 +51,9 @@ If you find our work useful, please consider citing us! 🏆👇
 @article{hu2025pranet2,
   title={PraNet-V2: Dual-Supervised Reverse Attention for Medical Image Segmentation},
   author={Hu, Bo-Cheng and Ji, Ge-Peng and Shao, Dian and Fan, Deng-Ping},
-  journal   = {arXiv preprint arXiv:XXXX.XXXXX},
+  journal   = {arXiv preprint arXiv:2504.10986},
   year={2025},
-  url       = {https://arxiv.org/abs/XXXX.XXXXX}
+  url       = {https://arxiv.org/abs/2504.10986}
 }
 ```
 
