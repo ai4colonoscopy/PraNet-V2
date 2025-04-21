@@ -10,8 +10,10 @@
 <div align='center'>
     <sup>1 </sup>Nankai University&ensp;  <sup>2 </sup>Australian National University&ensp;  <sup>3 </sup>Northwestern Polytechnical University&ensp; 
 </div>
-[Watch video](https://github.com/user-attachments/assets/c33a975a-e531-4974-b938-80bafa3b1c6b)
 
+<div align='center'>
+<video src="https://github.com/user-attachments/assets/6f4e91dd-f13b-4597-a896-26031656e5e6" controls width="600" />
+</div>
 
 # 🔥News🔥
 - **`Apr 15, 2025`:**  🎉 We are excited to introduce the [inference code](https://github.com/ai4colonoscopy/PraNet-V2/blob/main/binary_seg/jittor/MyTest.py) for the PraNet series models (PraNet-V1, PVT-PraNet-V1, PraNet-V2, PVT-PraNet-V2) running on the **Jittor** framework! [Performance evaluation](https://github.com/ai4colonoscopy/PraNet-V2/tree/main/binary_seg/jittor#performance-comparison) and [inference speed tests](https://github.com/ai4colonoscopy/PraNet-V2/tree/main/binary_seg/jittor#speedup) have shown that Jittor significantly boosts inference speed compared to the PyTorch framework. Give it a try and feel the difference! ✨😊
@@ -75,7 +77,7 @@ cd PraNet-V2
 1. **Polyp datasets**
    - To download the training and testing datasets, use this [Google Drive Link](https://drive.google.com/drive/folders/1Hi-ztnzRtWvdGejYHTyOAn6fNBWcWLik?usp=drive_link) and place it in the directory `./binary_seg/data`.
 2. **ACDC and Synapse datasets**
-   - Please refer to the [EMCAD](https://github.com/SLDGroup/EMCAD) for the preprocessed dataset used in this project. Make sure to follow their guidelines for proper usage. 
+   - Please refer to This [Google Drive Link](https://drive.google.com/drive/folders/1TAukyck8wTvAE1LsTeW0pgxBB6N51qQb?usp=sharing) to obtain preprocessed dataset. 
 
 ### Backbones Preparation
 **We also require the pre-trained weights for PVTV2B2, Res2Net, and VIT**,  Please [click here to download](https://drive.google.com/drive/folders/17VuWBy6CnEXF7kASydQGsZgYFjiwhez2?usp=drive_link) them 🎯. Then, make sure to place the files in the following locations:
