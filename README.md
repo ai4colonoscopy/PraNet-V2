@@ -7,11 +7,11 @@
     <a href='https://scholar.google.com/citations?user=kakwJ5QAAAAJ' target='_blank'><strong>Deng-Ping Fan</strong></a><sup> 1</sup>&thinsp;
 </div>
 
-<div align='center'>
+<div align='left'>
     <sup>1 </sup>Nankai University&ensp;  <sup>2 </sup>Australian National University&ensp;  <sup>3 </sup>Northwestern Polytechnical University&ensp; 
 </div>
 
-<div align='center'>
+<div align='left'>
 <video src="https://github.com/user-attachments/assets/6f4e91dd-f13b-4597-a896-26031656e5e6" controls width="600" />
 </div>
 
