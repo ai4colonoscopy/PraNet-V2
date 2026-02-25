@@ -16,6 +16,7 @@
 </div>
 
 # 🔥News🔥
+- **`Feb 25, 2026`** We upload the whole manuscript including appendix, please refer to this [document](binary_seg/jittor/pranet-v2-with-appx.pdf)
 - **`Apr 15, 2025`:**  🎉 We are excited to introduce the [inference code](https://github.com/ai4colonoscopy/PraNet-V2/blob/main/binary_seg/jittor/MyTest.py) for the PraNet series models (PraNet-V1, PVT-PraNet-V1, PraNet-V2, PVT-PraNet-V2) running on the **Jittor** framework! [Performance evaluation](https://github.com/ai4colonoscopy/PraNet-V2/tree/main/binary_seg/jittor#performance-comparison) and [inference speed tests](https://github.com/ai4colonoscopy/PraNet-V2/tree/main/binary_seg/jittor#speedup) have shown that Jittor significantly boosts inference speed compared to the PyTorch framework. Give it a try and feel the difference! ✨😊
 
 - **`Apr 15, 2025`:** 🚀 Released training/testing code! **PraNet-V2 now supports both**
