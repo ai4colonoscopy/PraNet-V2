@@ -75,13 +75,13 @@ To make the core idea of **PraNet-V2 / DSRA** easier to understand, we also prov
 
 <p align="center">
 <a href="./docs/comic_en.md">
-    <img src="./assets/comics/en/comic1_en.png" width="40%" alt="English Comic 1"/>
+    <img src="./assets/comics/en/comic1_en.png" width="31%" alt="English Comic 1"/>
 </a>
 <a href="./docs/comic_en.md">
-    <img src="./assets/comics/en/comic2_en.png" width="30%" alt="English Comic 2"/>
+    <img src="./assets/comics/en/comic2_en.png" width="31%" alt="English Comic 2"/>
 </a>
 <a href="./docs/comic_en.md">
-    <img src="./assets/comics/en/comic3_en.png" width="30%" alt="English Comic 3"/>
+    <img src="./assets/comics/en/comic3_en.png" width="31%" alt="English Comic 3"/>
 </a>
 </p>
 </details>
@@ -93,13 +93,13 @@ To make the core idea of **PraNet-V2 / DSRA** easier to understand, we also prov
 
 <p align="center">
 <a href="./docs/comic_zh.md">
-    <img src="./assets/comics/zh/comic1_zh.png" width="31%" alt="Chinese Comic 1"/>
+    <img src="./assets/comics/zh/comic1_zh.png" width="40%" alt="Chinese Comic 1"/>
 </a>
 <a href="./docs/comic_en.md">
-    <img src="./assets/comics/zh/comic2_zh.png" width="31%" alt="Chinese Comic 2"/>
+    <img src="./assets/comics/zh/comic2_zh.png" width="29%" alt="Chinese Comic 2"/>
 </a>
 <a href="./docs/comic_en.md">
-    <img src="./assets/comics/zh/comic3_zh.png" width="31%" alt="Chinese Comic 3"/>
+    <img src="./assets/comics/zh/comic3_zh.png" width="29%" alt="Chinese Comic 3"/>
 </a>
 </p>
 
