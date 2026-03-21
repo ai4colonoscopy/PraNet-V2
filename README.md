@@ -59,6 +59,51 @@ Accurate medical image segmentation is essential for effective diagnosis and tre
 <img src="./assets/Qualitative.png" alt="Qualitative1" style="zoom: 33%;" />
 
 
+# 🎨 Paper Comics
+
+To make the core idea of **PraNet-V2 / DSRA** easier to understand, we also provide paper promo comics in both **English** and **Chinese**.
+
+
+<p align="center">
+  <em>Click the image to view full resolution.</em>
+</p>
+
+<details>
+<summary><strong>🇺🇸 English Version</strong></summary>
+
+<br>
+
+<p align="center">
+<a href="./docs/comic_en.md">
+    <img src="./assets/comics/en/comic1_en.png" width="40%" alt="English Comic 1"/>
+</a>
+<a href="./docs/comic_en.md">
+    <img src="./assets/comics/en/comic2_en.png" width="30%" alt="English Comic 2"/>
+</a>
+<a href="./docs/comic_en.md">
+    <img src="./assets/comics/en/comic3_en.png" width="30%" alt="English Comic 3"/>
+</a>
+</p>
+</details>
+
+<details>
+<summary><strong>🇨🇳 中文版本</strong></summary>
+
+<br>
+
+<p align="center">
+<a href="./docs/comic_zh.md">
+    <img src="./assets/comics/zh/comic1_zh.png" width="31%" alt="Chinese Comic 1"/>
+</a>
+<a href="./docs/comic_en.md">
+    <img src="./assets/comics/zh/comic2_zh.png" width="31%" alt="Chinese Comic 2"/>
+</a>
+<a href="./docs/comic_en.md">
+    <img src="./assets/comics/zh/comic3_zh.png" width="31%" alt="Chinese Comic 3"/>
+</a>
+</p>
+
+</details>
 
 # Usage
 
